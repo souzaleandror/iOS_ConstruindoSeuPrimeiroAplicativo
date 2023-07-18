@@ -572,3 +572,288 @@ Criar seu projeto no Xcode: para desenvolver seus projetos iOS;
 Adicionar elementos no storyboard com o uso do interface builder;
 Alterar atributos de elementos, por exemplo, cor de fundo da tela.
 Ótimo, não é mesmo? Vejo você na segunda aula!
+
+
+@02-Constraints, ações e navegação
+
+01
+Projeto da aula anterior
+
+Você pode acompanhar o passo a passo do desenvolvimento do nosso projeto no Github e, caso deseje, pode baixar o projeto da aula anterior.
+Bons estudos!
+
+https://github.com/alura-cursos/ios-construindo-seu-primeiro-aplicativo/tree/aula-01
+
+https://github.com/alura-cursos/ios-construindo-seu-primeiro-aplicativo/archive/refs/heads/aula-01.zip
+
+@@02
+Constraints e autolayout
+
+Desenvolvemos a primeira tela do nosso aplicativo, mas vou mostrar um fato curioso para vocês agora. Eu desenvolvi o aplicativo com base no Iphone 14 Pro, vai depender da versão do XCode que vocês estarão utilizando.
+Na parte inferior esquerda da janela, temos na barra de menu a opção "Iphone 14 Pro" selecionada. Clicando nela, aparece as opções de novos dispositivos, onde escolheremos o "Iphone SE", que é a última opção da esquerda para direita.
+
+O layout não ficou legal no Iphone SE. Inclusive tínhamos centralizado a imagem e o botão, mas eles acabaram ficando muito para direita, o que é um comportamento estranho.
+
+Vamos centralizar novamente a imagem e diminuir o tamanho dela. Fazendo isso, percebemos que ela está com bastante espaço em branco, o que é desnecessário. Clicando e arrastando o círculo centro superior para baixo, conseguimos diminuir esse espaço em branco e podemos centralizar a imagem. Também podemos centralizar o botão em seguida.
+
+Feito isso, podemos selecionar mais uma vez o "Iphone 14 Pro" no menu inferior esquerdo. Com a mudança, notamos que o layout ficou muito à esquerda dessa vez. Isso acontece porque o centro do Iphone SE não é o mesmo do Iphone 14 Pro, justamente porque eles possuem tamanhos diferentes. Precisamos resolver isso, porque esse não é o comportamento esperado.
+
+Queremos que nosso aplicativo funcione corretamente em todos os Autolayout. Esse é um sistema usado para desenvolver layouts de aplicativos iOS com base em regras de relação de posicionamento entre os elementos.
+
+A primeira coisa que faremos é centralizar horizontal e verticalmente o botão, então clicamos no botão. Depois, no lado inferior direito da janela, observamos cinco ícones, que usaremos para trabalhar nas regras de posicionamento, chamadas de Constraints, algo que veremos bastante ao longo desse curso.
+
+Se deixarmos o mouse sobre o segundo ícone da esquerda para direita, descobriremos que o nome dele é align. Clicando nele, abre uma janela flutuante acima dele, e nela tem caixa de seleções ao lado esquerdo das opções que podemos marcar.
+
+Essas opções são a de alinhar horizontalmente e a de alinhar verticalmente conforme o Container, que é nossa tela. Marcamos as duas, clicamos no botão "Add to Constraints" (Adicionar às regras) na parte inferior da janela.
+
+Percebemos que o botão que criamos centralizou tanto verticalmente, quanto horizontalmente. Inclusive ele reduziu o tamanho, mas iremos arrumar isso depois.
+
+Nosso botão está alinhado no Iphone 14 e, ao voltarmos para o Iphone SE, percebemos que ele está alinhado também. A diferença é que a fonte bugou um pouco no Iphone SE, quebrando o texto "Iniciar Quiz" em duas linhas. Isso porque ela está um pouco grande para essa tela, mas tudo bem.
+
+Voltando para o Iphone 14 Pro, notamos que a fonte bugou também, porém resolvemos isso diminuindo um pouco a fonte e aumentando novamente. Com isso o texto volta a ficar em apenas uma linha novamente. Esses bugs às vezes acontecem no XCode, mas não tem problema.
+
+Centralizamos o botão, agora precisamos mexer na imagem. Primeiramente vamos centralizá-la horizontalmente, então clicaremos no botão "align" e marcaremos a caixa de seleção de centralizar horizontalmente. Não alinharemos alinharmos verticalmente porque ficaria no mesmo lugar do botão, e não é o que queremos.
+
+Adicionamos essa constraint à imagem, mas ela ficou com as bordas horizontais marcadas em vermelho. Isso significa que está faltando um constraint, ou seja, uma regra, e precisamos adicionar.
+
+Pensem que alinhamos apenas horizontalmente, mas ainda falta uma regra de posicionamento verticalmente. E o que podemos fazer? Nesse caso, queremos que a parte de baixo da imagem esteja a uma distância de 42px da parte superior do botão.
+
+Para isso, clicaremos no terceiro ícone da parte inferior direita, que abre a janela flutuante "Add New Constraints (Adicionar novas regras)" acima do ícone. Nela conseguimos identificar quais são as regras do elemento selecionado, ou seja, a imagem.
+
+Reparem que na parte superior da janela tem um quadrado preto no centro cercado por quatro campos de números. Esses quatro campos são referentes às bordas do elemento: a do topo, da direita, da esquerda e a inferior.
+
+Se queremos que a parte inferior da imagem esteja a 42px de distância do topo do botão, ativaremos a constraint inferior. Então vamos clicar na linha vertical vermelha entre o quadrado preto e o campo inferior e, ao fazermos isso, ela passa de um vermelho mais opaco para um mais intenso.
+
+Depois escrevemos o valor no campo inferior, que é 42, e clicamos em uma seta que tem no lado direito desse campo. Com isso, um menu flutuante abre e, ao final dele, podemos escolher com qual elemento queremos que essa medida se relacione.
+
+Como queremos que esteja a 42px do nosso botão, selecionamos a opção "Iniciar Quiz". Se fosse 42px da parte inferior da tela, selecionaríamos "View" ou "Safe Area" (Área segura), que é a área segura da tela. Isso porque, quando estamos mexendo com Iphone, temos a parte superior com as informações de horário, a porcentagem da bateria.
+
+Então não podemos desenvolver tão perto das extremidades superior e inferior da tela, deixando os elementos dentro da área segura. Contudo, no nosso caso, queremos que a distância seja em relação ao botão, então selecionamos o "Iniciar Quiz".
+
+Feito isso, escreveremos 42 novamente, porque, ao clicar, ele pode retornar o valor para distância atual. Em seguida, clicamos no botão na parte inferior da janela flutuante, escrito "Add 1 Constraint (Adicionar 1 regra)". Assim reparamos que a imagem fica na distância de 42px do botão.
+
+A última constraint que adicionaremos nesse vídeo é para arrumarmos o botão, que queremos que tenha uma altura e uma largura maiores. Não deixaremos esse tamanho fixo, mas sim com base no tamanho da tela. Dessa forma, clicaremos novamente no terceiro ícone da parte inferior direita, o ícone para adicionar regras (constraints).
+
+Com o menu "Add New Constraints" aberto, escreveremos 64 no campo da esquerda, que é a constraint chamada de leading, e 64 no campo da direita, que é a constraint chamada de tralling. Esses valores serão conforme a tela, então clicaremos no botão "Add 2 constraints" na parte inferior.
+
+Percebam que, ao fazermos isso, nosso botão aumentou de largura, porque informamos que o espaçamento dele em relação às bordas laterais da tela tem que ser 64px. E para ajustarmos um valor da altura desse botão, clicamos novamente no ícone para adicionar constraints.
+
+No menu "Add New Constraint", marcamos a caixa de seleção do "Height" (Altura), que fica abaixo dos campos de margem e, ao lado direito teremos o campo para definir o valor da altura, que será 62. Em seguida, clicamos no botão "Add 1 constraint" e temos o valor de altura do nosso botão ajustado, gerando um botão muito mais bonito.
+
+Nesse vídeo aprendemos mais sobre constraints e autolayout, que utilizaremos bastante durante esse curso. Então não se preocupem que vocês verão outros exemplos.
+
+@@03
+Conhecendo @IBAction e @IBOutlet
+
+Eu tenho uma pergunta para fazer a vocês: como podemos capturar o toque em um botão? Por exemplo, quando o usuário está mexendo no aplicativo e pressiona um botão, eu quero que, no Console, recebamos uma mensagem como "O botão foi pressionado". Como fazer isso? Onde está o código da nossa aplicação?
+Estamos aprendendo bastante sobre storyboard e elementos arrastados para a tela, mas ainda não vimos o que precisamos fazer com o código. A primeira coisa que faremos é criar uma conexão entre os objetos da nossa tela com o código.
+
+Lembrem-se que mencionei que para cada tela existe uma ViewController relacionada. É exatamente com ela que trabalharemos agora. Dessa forma, abriremos o storyboard em uma parte da tela e o código em outra parte da tela.
+
+Para isso, clicaremos em no segundo ícone do canto superior direito do storyboard, logo abaixo do ícone para abrir os elementos do storyboard. Esse ícone é formado por várias listras horizontais e, ao clicarmos nele, um menu flutuante aparece na parte com diversas opções.
+
+Selecionamos a opção "Assistant", que abre, ao lado esquerdo, o código da ViewController relacionado a essa tela. Assim acabamos com muitas coisas abertas no XCode, sendo assim, minimizaremos algumas delas.
+
+Começaremos minimizando os Arquivos, clicando no canto superior esquerdo da janela. Feito isso, à esquerda fica apenas o menu de constraints, que eu ainda não havia mencionado. Nele aparecem todas as constraints relacionadas ao botão e à imagem.
+
+Também vamos ocultá-lo, clicando no canto no botão "Hide document outline" (Ocultar documento da borda), localizado no canto inferior direito do menu. Por fim esconderemos o painel de atributos, clicando no canto superior direito da janela. Feito isso, limpamos a tela e ficamos apenas com o storyboard, no lado esquerdo, e o código referente à tela no lado direito do XCode.
+
+Como eu falei, precisamos criar uma conexão entre os elementos da tela com o código, então clicaremos no botão "Iniciar Quiz", pressionaremos "Ctrl" no teclado e, com a tecla pressionada, arrastaremos o botão para o código. Com isso, uma linha azul saindo do botão e indo para o código aparece e quando soltamos o mouse uma pequena janela aparece no centro da tela.
+
+O primeiro atributo nessa janela é o Connection (Conexão), que é um Outlet. Ao clicarmos nessa opção, abre-se um menu, e notamos que a connection também pode ser uma Action (Ação). E qual a diferença entre as duas?
+
+Quando escolhemos o "Outlet", significa que estamos fazendo a conexão de apenas um elemento, por exemplo, estamos criando o elemento "botão" no nosso código. Quando escolhemos o "Action" (Ação), significa que estamos conectando uma ação específica desse elemento, como o toque de um botão. Escolheremos a opção "Action" para entendermos como funciona.
+
+No campo "Name" (Nome) escreveremos "botaoPressionado". Sempre tentem ser concisos e explicar o que essa ação faz. No campo "Type" (Tipo) manteremos como "Any" (Qualquer). O campo seguinte é a propriedade "Event" (Evento), definida como "Touch Up Inside" (Tocado por dentro), que é o evento padrão quando pressionamos um botão.
+
+Com as propriedades definidas, podemos clicar no botão "Connect" (Conectar) no canto inferior da janela. Feito isso, uma nova função aparece na linha 12, com a marcação @IBAction, por se tratar de uma ação. Então ficou @IBAction func botaoPressionado(_ senders: Any) {}, e dentro dessa função, podemos escrever print("O botão foi pressionado!").
+
+@IBAction func botaoPressionado(_ senders: Any) {
+    print("O botão foi pressionado!")
+}COPIAR CÓDIGO
+Voltando a pressionar o "Ctrl", clicaremos no botão e arrastaremos novamente para o código, mas dessa vez deixarei a conexão como "Outlet" para vocês verem a diferença. No campo "Nome", escrevemos "botaoIniciarQuiz" e o "Tipo" será "UIButton", que é uma classe que representa um botão.
+
+Lembrete: É extremamente importante nomear bem as variáveis no código.
+Feito isso, clicamos no botão "Conectar" no canto inferior direito da janela. Assim, aparece um novo código na linha 12, que não é mais uma função, e sim um atributo da classe ViewController.
+
+@IBOutlet weak var botaoIniciarQuiz: UIButton!COPIAR CÓDIGO
+Quando utilizamos o "Outlet", ele apenas faz uma referência ao elemento, no caso, o botão, enquanto o "Action" é usado para fazermos uma ação relacionada ao elemento. Outro fato importantíssimo de ser mencionado é o que acontece ao editarmos as propriedades de um botão,
+
+Voltando a abrir o "Inspecionar elemento", clicando no canto superior direito da janela, notamos que alteramos a cor de fundo e o tamanho da fonte, tudo feito pelo storyboard e pelo painel de atributos. Entretanto, poderíamos fazer também por código, porque o outlet é o próprio botão.
+
+Esse botão, que possui a classe UIButton!, possui também diversos atributos e métodos. Um exemplo, nós não conseguimos arredondar os cantos do botão pelo painel de atributos do storyboard, ou seja, precisamos fazer isso através do código.
+
+Eu não cheguei a explicar o código da linha 10, o class ViewController: UIViewController. Nele temos a classe ViewController, que herda de outra classe, chamada UIViewController, e ela possui todos os métodos e atributos de uma view, sendo que anteriormente já aprendemos sobre classes, atributos e métodos.
+
+A view é a tela, ou seja, a ViewController, e o método viewDidLoad() sempre será chamado quando a view for carregada. Dentro desse método, na linha 19, tem um comentário falando "Do any additional setup after loading the view." (Faça qualquer ajuste adicional após carregar a view).
+
+Na linha 20, após o fechamento do método viewDidLoad, pressionaremos "Enter" duas vezes e, na linha 22, criaremos a func configuraLayout. Em seguida, na linha 19, no lugar do comentário, chamaremos essa função.
+
+//código omitido
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        configuraLayout()
+
+    }
+
+
+    func configuraLayout() {
+    }COPIAR CÓDIGO
+Eu gosto de criar muitas funções para deixar o código bastante organizado. Sendo assim, dentro da função configuraLayout() iremos arredondar os cantos do botão. Como faremos isso?
+
+Temos o botaoIniciarQuiz na linha 12, representando nosso botão. Então vamos chamá-lo na linha 23 junto com uma propriedade dele, a layer (camada). Dentro dessa propriedade, chamaremos outra propriedade, a cornerRadius, para arredondarmos os cantos, e definiremos o valor como 12.0. Sendo assim, escrevemos:
+
+    func configuraLayout() {
+        botaoIniciarQuiz.layer.cornerRadius = 12.0
+    }COPIAR CÓDIGO
+Um ponto importante a ser dito é que não conseguimos visualizar essa modificação na tela do storyboard. Ela só é visível quando executamos o projeto, e é o que faremos.
+
+Podemos executar clicando no "▶", um botão que fica na parte superior direita da janela, ou usando o "Command + R". Esse processo de build pode demorar um pouco, dependendo da sua máquina, então não se assustem.
+
+Com o emulador rodando o nosso projeto, reparamos que nosso botão está com as bordas arredondadas, assim como queríamos. Ao pressionarmos o "Iniciar Quiz" e voltarmos para o "XCode", recebemos a mensagem "O botão foi pressionado!" no Console, ou seja, ele pegou a ação da linha 14.
+
+Agora aprendemos como iremos escrever os códigos e como conectamos elementos do storyboard com o código.
+
+@@04
+Conectando elementos no código
+
+
+PRÓXIMA ATIVIDADE
+
+Descobrimos como conectar os elementos do Storyboard com o código da respectiva tela, permitindo o acesso e manipulação das propriedades desses elementos da interface do usuário no nosso código, além de permitir também a configuração de ações para esses elementos, como por exemplo o toque em um botão.
+Diante disso, para criarmos um botão com borda arredondado, como fazemos? Selecione as práticas verdadeiras:
+
+Para configurar o botão de borda arredondada, precisamos conectar o botão via código através da opção @IBOutlet e alterar a propriedade que adiciona as bordas arredondadas, que é definida por layer.radiusCurve.
+ 
+Alternativa correta
+Para configurar o botão de borda arredondada, precisamos conectar o botão via código através da opção @IBOutlet e alterar a propriedade que adiciona as bordas arredondadas, que é definida por layer.cornerRadius.
+ 
+Isso mesmo! A opção outlet serve para conectarmos um elemento no nosso código, enquanto a propriedade layer.cornerRadius define um valor para os cantos arredondados do botão.
+Alternativa correta
+Podemos alterar essa opção no menu lateral de propriedades oferecido pelo Interface Builder;
+ 
+Alternativa correta
+Precisamos conectar o botão via código através da opção @IBAction
+
+@@05
+Criando a segunda tela e navegando entre elas
+
+Terminamos nossa primeira tela. Agora precisamos dar continuidade, criando a segunda tela: a tela de questões.
+Clicaremos no botão de "+", na parte superior, para abrirmos a biblioteca de elementos do storyboard. Depois escreveremos "view controller" para criarmos uma nova tela, já que até o momento só temos uma. Clicamos no "view controller" e depois arrastamos para o storyboard.
+
+Agora temos duas telas, mas ao clicarmos na segunda tela, na metade direita da tela aparece um código muito estranho. Isso acontece porque não existe nenhuma UIViewController ligada a essa tela.
+
+Lembrem-se que eu falei que toda tela do storyboard precisa ter uma View Controller ligada a ela, então criaremos uma nova ViewController. Para isso, no lado esquerdo, onde temos a estrutura de arquivos, clicaremos com o botão direito sobre a pasta "IQuiz" e selecionar "New File" (Novo Arquivo).
+
+Uma janela se abre no centro da tela e nela selecionamos a opção "Cocoa Touch Class", e logo explicarei o porquê. Clicamos em "Next" (Próximo), no canto inferior direito, e a janela atualiza para um formulário com três propriedades: Class (Classe), Subclass of (Subclasse de) e Language (Linguagem).
+
+No campo "Subclass of" está selecionada a opção "UIViewController" e, clicando nela, abre-se um menu flutuante com todas as classes disponíveis. A opção "UIViewController" precisa estar selecionada nesse campo, então se no XCode de vocês estiver diferente, basta selecioná-la.
+
+Fazendo isso, ele cria um arquivo pronto com uma classe que herda de UIViewController. Sendo assim, o nome dessa classe, ou seja, o campo "Class", não pode ser "ViewController", porque já existe um arquivo com esse nome, portanto mudaremos para "QuestaoViewController". A linguagem permanece como "Swift".
+
+Clicamos em próximo, a janela atualiza novamente e então escolhemos o local onde queremos salvar a classe. Como já abriu na pasta do projeto, eu vou apenas clicar em "Create" para criar o código.
+
+Fazendo isso, o XCode abre o arquivo com a classe QuestaoViewController com o método viewDidLoad, disparado quando a View é carregada de fato. Então está tudo pronto para nós, diferente de criarmos um arquivo Swift, onde teríamos que escrever todos esses códigos, ou seja, poupamos tempo.
+
+No menu de arquivos do lado esquerdo, nós clicaremos no "Main", onde voltamos para o storyboard. Precisamos conectar a ViewController do storyboard com o arquivo "QuestaoViewController". Dando um zoom sobre a tela branca, notaremos uma barra com três pequenos botões. Clicaremos no primeiro deles, que corresponde ao "view controller".
+
+Ao fazemos isso, o painel de inspetores, na lateral direita da janela, atualiza. Na parte superior dela tem vários ícones. O quinto ícone da esquerda para direita, formado por uma lista de sliders, é onde clicamos para abrir o painel de atributos, onde mudamos algumas coisas em relação à tela.
+
+Já o quarto ícone da esquerda para direita, é referente ao inspetor de identidade, que é onde ligaremos o arquivo que acabamos de criar com a ViewController. No começo desse painel tem o campo "Class" (Classe), onde escreveremos a classe que acabamos de criar, no caso, a "QuestaoViewController", a classe que vai controlar essa tela.
+
+Quando pressionamos "Enter", notamos que a aba de código já mudou. O código estranho sumiu e apareceu o código da QuestaoViewController como esperávamos.
+
+Agora mudaremos a cor de fundo dessa tela, porque não queremos que ela seja branca. Usaremos a mesma cor da primeira tela, então clicaremos na primeira tela e voltaremos para o painel de atributos, clicando no quinto ícone da parte superior da aba da direita.
+
+Nele clicaremos na cor do "background" para abrir o editor de cores na parte inferior, onde copiaremos o código hexadecimal que é o "521EC2". Depois clicaremos na tela branca e, no painel de atributos, clicaremos no campo "Background" e na cor branca.
+
+O editor de cores abre na parte inferior do painel, e a opção selecionada na parte superior do editor é a greyscale slider. Clicando nela, abrimos um menu onde selecionaremos a opção "RGB Sliders", que é a segunda. Nessa opção temos o campo "Hex Color" na parte inferior direita, onde iremos colar o código que copiamos. Assim temos a nossa segunda tela.
+
+Agora precisamos conectar as duas telas, porque queremos ir para segunda tela ao clicarmos no botão "Iniciar Quiz". Quando falamos de navegação entre telas, existe uma classe responsável por tudo isso, que é UINavigationController. Essa classe vai gerenciar todas as navegações da nossa aplicação, então precisamos adicioná-la ao nosso código para tudo funcionar corretamente.
+
+Vamos clicar no ícone de View Controller na barra de acima da primeira tela. Em seguida, na barra superior da janela, clicaremos em "Editor > Embed In > Navigation Controller".
+
+Observem que aparece uma tela à esquerda da primeira tela, mas não mexeremos nela. Ela representa a Navigation Controller, ou seja, a tela que irá gerenciar todas as navegações entre telas.
+
+Vamos executar o código do nosso aplicativo e, quando ele abre, reparamos que não houve nenhuma modificação da tela inicial, porque a tela Navigation Controller não tem nenhum efeito visual sobre a nossa aplicação. Agora precisamos fazer que sempre que pressionarmos o botão "Iniciar Quiz", a segunda tela apareça.
+
+Para isso, pressionaremos a tecla "Ctrl", clicaremos no botão "Iniciar Quiz", da primeira tela, e arrastaremos ele para segunda tela. Quando soltamos o clique, aparece um menu flutuante com todas as possibilidades de ação que podemos realizar quando mudamos de uma view controller para outra.
+
+Por exemplo, a Show (Mostrar) é uma ação onde a tela vai simplesmente aparecer. Se clicarmos em Present Modaly (Apresentar Modal), significa que irá abrir como um modal, já o Present as Popover Apresentar Popover) vai mostrar a tela como Popover.
+
+Esses são alguns dos diferentes tipos de exibição do iOS. Clicaremos no "Show", que é a exibição padrão. Observem agora que no storyboard há uma seta cinza claro conectando a primeira view controller à segunda. Inclusive, na segunda view controller apareceu um botão no canto superior esquerdo escrito "Voltar", que é uma característica da navigation controller.
+
+Como eu comentei, a navigation controller gerencia todas as navegações, e com ela conseguimos ir para próxima página, voltar para tela anterior, descobrir em qual página estamos, entre outros métodos envolvendo a navegação. Então ao executaremos esse código novamente, pressionando "Command + R", e voltaremos para o emulador.
+
+Quando a aplicação abre, podemos clicar no botão "Iniciar Quiz" e, com isso, mudamos para outra tela, onde aparece o botão de voltar em azul no canto superior direito da tela. Quando clicamos nesse botão de voltar, retornamos para tela inicial.
+
+Agora entendemos como funciona a navegação de telas. Espero vocês no próximo conteúdo para continuarmos desenvolvendo o layout da tela de questão.
+
+@@06
+Desafio: propriedades da tela via código
+
+Você já alterou diversas propriedades de um elemento - que poder uma imagem, um texto e muito mais e que chamamos de view - pelo Interface Builder do Storyboard, como cor de fundo, tamanhos de fontes, entre outros.
+E você também alterou essas propriedades via código, por exemplo, adicionou a propriedade que arredonda as bordas de um botão.
+
+Agora, faça uma pesquisa e procure entender como alterar outras propriedades via código, como a propriedade cor de fundo. Se você precisasse alterar a cor de fundo do botão da tela inicial de forma programática, ou seja, via código, como você faria isso?
+
+Compartilhe seu código lá no discord com a gente!
+
+Para alterar a cor de fundo do botão da tela inicial de forma programática, você pode fazer da seguinte forma:
+botaoIniciarQuiz.backgroundColor = UIColor(red: 116/255, green: 50/255, blue: 255/255, alpha: 1.0)COPIAR CÓDIGO
+Vamos entender o código acima!
+
+O elemento botaoIniciar possui uma propriedade chamada de backgroundColor, que é do tipo UIColor. Se você pressionar a tecla option e clicar logo acima de ‘backgroundColor’ conseguirá verificar o seu tipo.
+
+Infelizmente, nós não conseguimos colocar a cor em hexadecimal de forma programática. Hexadecimal seria o valor #7432FF, igual está no Figma. Conseguimos colocar a cor de diversas outras formas, e uma delas é através do sistema RGB (red, green, blue).
+
+Portanto, estamos inicializando uma classe UIColor que recebe 4 parâmetros diferentes: red, green, blue, alpha :
+
+Red é a quantidade de vermelho em uma cor;
+Green é a quantidade de verde;
+Blue é a quantidade de azul.
+No código, essas quantidades são representadas de 0 até 1, porém, se você observar no Figma, verá que a cor RGB está como (116, 50, 255), pois, nesse caso, o valor vai de 0 até 255. Por esse motivo, precisamos dividir os valores por 255 no código.
+
+A última propriedade, alpha, é referente à opacidade da cor, que também vai de 0 a 1, sendo 0 transparente e 1 com sua cor total.
+
+Fez sentido?
+
+@@07
+Faça como eu fiz: adicione constraints e crie uma segunda tela
+
+Agora é a sua vez!
+Chegou a hora de você seguir todos os passos realizados por mim durante esta aula. Portanto:
+
+Defina constraints (regras de posicionamento e tamanho) para os elementos (botões e imagens, por exemplo);
+Conecte o elemento do botão ao código através do @IBOutlet;
+Crie uma ação qualquer para este botão através do @IBAction (mesmo que seja apenas um print no console);
+Crie uma segunda View Controller, que representará a tela de questões;
+Faça a navegação entre telas.
+Caso já tenha feito esses passos, excelente. Se ainda não, é importante que você execute o que foi visto nos vídeos para poder continuar com a próxima aula.
+
+O ideal é que você tente replicar os passos por conta própria para validar seu aprendizado. Porém, caso tenha dificuldade, fique à vontade para dar uma olhadinha nos vídeos!
+Vamos lá?
+
+O objetivo desta atividade é estimular a prática necessária para seu aprendizado!
+Você pode conferir o código do projeto até o momento através desta branch no GitHub.
+
+Se precisar de ajuda, chama a gente no fórum ou discord!
+
+https://github.com/alura-cursos/ios-construindo-seu-primeiro-aplicativo/tree/aula-01
+
+@@08
+Para saber mais: documentação do iOS
+
+Você pode conferir a documentação do iOS clicando aqui. A Apple também oferece diversos tutoriais e artigos para você complementar os seus estudos.
+
+@@09
+O que aprendemos?
+
+Nessa aula, você aprendeu como:
+Utilizar de constraints (regras de posicionamento e tamanho de elementos) para criação de layouts;
+Adicionar elementos do storyboard no código, bem como suas ações;
+Realizar navegação entre telas pelo storyboard;
+Criar uma nova ViewController, ou seja, uma nova tela do aplicativo.
+Concluímos a aula 2! Vejo você na próxima aula!
+
