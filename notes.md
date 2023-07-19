@@ -573,6 +573,7 @@ Adicionar elementos no storyboard com o uso do interface builder;
 Alterar atributos de elementos, por exemplo, cor de fundo da tela.
 Ótimo, não é mesmo? Vejo você na segunda aula!
 
+#### 18/07/2023
 
 @02-Constraints, ações e navegação
 
@@ -857,3 +858,537 @@ Realizar navegação entre telas pelo storyboard;
 Criar uma nova ViewController, ou seja, uma nova tela do aplicativo.
 Concluímos a aula 2! Vejo você na próxima aula!
 
+#### 19/07/2023
+
+@03-Tela de questão
+
+@@01
+Projeto da aula anterior
+
+Você pode acompanhar o passo a passo do desenvolvimento do nosso projeto no Github e, caso deseje, pode baixar o projeto da aula anterior.
+Bons estudos!
+
+https://github.com/alura-cursos/ios-construindo-seu-primeiro-aplicativo/tree/aula-02
+
+https://github.com/alura-cursos/ios-construindo-seu-primeiro-aplicativo/archive/refs/heads/aula-02.zip
+
+@@02
+Construindo o layout base da tela de questão
+
+A primeira coisa que faremos para melhorarmos o layout será esconder o botão de voltar na tela de questão.
+Tela de questão com o plano de fundo na cor roxa em um iPhone 14 Pro. Na parte superior esquerda há um botão "Back" escrito na cor azul escuro.
+
+Isso porque quando a pessoa usuária pressiona o botão "Iniciar Quiz", desejamos que não seja possível retornar à tela inicial. Portanto, vamos esconder esse botão de voltar. Como adicionamos uma NavigationController responsável por gerenciar tudo relacionado à navegação, isso é possível.
+
+No arquivo QuestaoViewController, dentro da viewDidLoad acessaremos um atributo da NavigationController, sendo o navigationItem. Na sequência deste, colocamos um ponto e colocamos o atributo hidesBackButton, e igualamos isso a true.
+
+Ao fazermos isso, estamos solicitando que o botão seja escondido.
+
+QuestaoViewController
+import UIKit
+
+class QuestaoViewController:
+        UIViewController {
+
+            override func viewDidLoad() {
+        super.viewDidLoad()
+
+                navigationItem.hidesBackButton = true
+
+                }
+// trecho de código suprimidoCOPIAR CÓDIGO
+Após isso, executamos o código. Seremos redirecionados para a tela inicial do quiz e clicamos no botão "Iniciar Quiz", assim, somos redirecionados para a tela de questões. Note que o botão "Back" no canto superior esquerdo não consta mais.
+
+Tela de questão com o plano de fundo na cor roxa em um iPhone 14 Pro. 
+
+Voltando ao XCode, temos um aviso no console:
+
+Por fins didáticos, o aviso não será exibido por completo
+[Assert] UiNavigationBar decoded as unlicked for UiNavigationController, or navigationBar delegate set up incorrectly. Inconsistent configuration may cause problemas.
+…
+
+Caso você também tenha recebido esse aviso, não se preocupe muito. Eu realmente acho que seja algum bug do XCode na versão 14, algumas pessoas relataram sobre esse aviso também. Vamos apenas ignorar.
+
+Agora, vamos construir o layout da nossa tela de questões!
+
+Iniciaremos adicionando um texto na nossa tela. Para isso, selecionamos a tela de questões e clicamos no ícone para abrir a biblioteca de elementos. Nela, selecionamos "Label" do lado esquerdo e arrastamos para a nossa tela de questões.
+
+Com o label selecionado, do lado direito ao invés de "Label" escrevemos "Título da Questão". Não se preocupe muito com os nomes, alteraremos isso de forma dinâmica mais para frente.
+
+Ainda do lado direito, em "Color", vamos escolher a opção "White Color". Na tela, vamos centralizar a label (mais adiante usaremos constraints para isso).
+
+Agora, vamos alterar o tamanho da fonte. Do lado direito, em "Font", clicamos na caixa de texto e preenchemos as informações com os seguintes dados:
+
+Font: System - System
+Style: Semibold
+Size: 32
+Em seguida, clicamos em "Done".
+
+Observe que a nossa tela de questões possui um fundo na cor roxa, e agora também contém o texto "Título da Questão" escrito na cor branca, centralizado na tela.
+
+A partir disso, vamos adicionar os botões. Visualizando no Figma, temos três respostas diferentes, e, portanto, vamos acrescentar três botões.
+
+No canto superior direito, abriremos a biblioteca e selecionaremos e arrastaremos o "Button" para a nossa tela de questões.
+
+Selecionando o "Button" na tela, do lado direito serão exibidos os atributos. o campo abaixo de title, ao invés de "Button" colocaremos "Resposta 01".
+
+Descendo a seção dos atributos do botão do lado direito, vamos em "Tint" e escolhemos a opção "White Color" para o texto. Depois vamos em "Background > Custom" e em "Hex Color" colocamos o código 7432FF.
+
+Observe que agora o nosso botão "Resposta 01" possui um preenchimento retângular mais destacado, em uma cor mais lilás.
+
+Vamos alterar o tamanho da fonte do botão "Resposta 01". Do lado esquerdo, vamos em "Font" e colocamos as seguintes informações:
+
+Font: System - System
+Style: Regular
+Size: 22
+Em seguida, clicamos em "Done".
+
+Observe que a fonte com o texto "Resposta 01" está mais preenchida no retângulo do botão. Faz mais sentido um tamanho maior.
+
+Agora, podemos copiar e colar o botão mais duas vezes! Basta selecionarmos "Command + C" (ou "Ctrl + V" no Windows) selecionando o botão "Resposta 01" e depois "Command + V" ("Ctrl + V"). Isso duas vezes, dado que são mais dois botões.
+
+Logo após, basta centralizarmos as três respostas uma abaixo da outra. Como as três estão com o texto "Resposta 01", vamos alterar as duas últimas para "Resposta 02" e "Resposta 03".
+
+Tela do aplicativo preenchida com a cor roxa de fundo. Na parte superior esquerda temos um botão com o texto "Back" na cor azul escuro com uma seta apontada para a esquerda do lado esquerdo. Abaixo e centralizado na tela, temos o título chamado atualmente de "Título da Questão" escrito na cor branca; abaixo deste, temos as três respostas com os respectivos textos: Resposta 01, Resposta 02 e Resposta 03. Todos estão preenchidos com uma cor em um tom mais claro que o fundo da tela, voltado para o lilás, com o texto escrito na cor branca.
+
+Pronto! Estamos com a estrutura da nossa tela de questões criada, agora vamos trabalhar com as constraints para alinhar os elementos.
+
+Te espero para o próximo conteúdo!
+
+@@03
+Inserindo constraints
+
+Agora precisamos criar as constraints. Iniciaremos pelo título da questão, observe as constraints que colocaremos aqui.
+No canto inferior clicaremos no ícone de constraints, e na janela intitulada "Add New Constraints" colocaremos uma de 112 para o topo e nas laterais, colocaremos 64 na esquerda e na direita (isso em relação à nossa tela). Logo após, clicamos em "Add 2 Constraints".
+
+Observe na tela do aplicativo que o título moveu um pouco. Nos botões, temos três:
+
+Resposta 01
+Resposta 02
+Resposta 03
+Selecionando o "Resposta 1" abriremos as Constraints. Esse primeiro botão terá um espaçamento de 72 na margem inferior do título da questão, e um espaçamento 64 para a lateral esquerda e direita.
+
+Clicando na seta para baixo ao lado do número de espaçamento 72, o título da questão está marcado com um check ("√"). Precisamos digitar novamente o 72, dado que ele altera quando selecionamos.
+
+Clicando na seta para baixo ao lado do número de espaçamento 64 do lado esquerdo, o Safe Area (em português, "área segura") da tela que está marcado, ele está marcado com um check ("√"). Perceba que ele até nos exibe a distância atual do elemento com a safe area.
+
+Na próxima seção, temos "Width" (em português, "Largura") e "Height" ("Altura"). Vamos alterar a altura para 62; a largura deixaremos com 141.
+
+Width: 141
+Height: 62
+Logo após, clicamos no botão "Add 4 Constraints".
+
+Observe que agora temos a nossa tela intitulada "Título da Questão", com três respostas abaixo: Resposta 01, Resposta 02 e Resposta 03. Note que a resposta um está com um preenchimento maior agora, sendo as outras estão com um preenchimento em um tamanho menor.
+
+Selecionando "Resposta 02" e depois o ícone de constraints, colocaremos que na margem inferior do botão 01 terá um espaçamento de 32; já nas laterais colocamos 64.
+
+Na seção seguinte, temos "Width" e "Height" (marcado no checkbox). Vamos alterar a altura para 62; a largura deixaremos com 144.
+
+Width: 144
+Height: 62
+Logo após, clicamos em "Add 4 Constraints".
+
+Agora o nosso segundo botão está do mesmo tamanho que o botão 01, e possuem uma distância de 32 entre eles.
+
+Agora vamos clicar na "Resposta 03" e depois o ícone de constraints. Colocaremos que na margem inferior do botão 01 terá um espaçamento de 32; já nas laterais colocamos 64.
+
+Na seção seguinte, temos "Width" e "Height" (marcado no checkbox). Vamos alterar a altura para 62; a largura deixaremos com 144.
+
+Width: 145
+Height: 62
+Podemos notar que ele sempre pega o elemento mais próximo. Por exemplo, nesse caso, para a constraint do topo ele pega a "Resposta 02", sendo o elemento mais próximo. Por isso, já está selecionado da forma correta.
+
+Logo após, clicamos em "Add 4 Constraints".
+
+Tela do aplicativo preenchida com a cor roxa de fundo. Na parte superior esquerda temos um botão com o texto "Back" na cor azul escuro com uma seta apontada para a esquerda do lado esquerdo. Abaixo e centralizado na tela, temos o título chamado atualmente de "Título da Questão" escrito na cor branca; abaixo deste, temos as três respostas com os respectivos textos: Resposta 01, Resposta 02 e Resposta 03. Todos estão preenchidos com uma cor em um tom mais claro que o fundo da tela, voltado para o lilás, com o texto escrito na cor branca.
+
+As constraints estão funcionando, agora precisamos conectar esses elementos ao nosso código.
+
+Até mais!
+
+@@04
+Conectando os botões e ajustando cantos arredondados
+
+O primeiro elemento que conectaremos ao código será o título da questão.
+Para isso, na tela de questão do nosso aplicativo clicamos em "Título da Questão", pressionamos a tecla "Ctrl" e arrastamos para o código do arquivo QuestaoViewController, do lado direito do XCode.
+
+QuestaoViewController
+import UIKit
+
+class QuestaoViewController:
+        UIViewController {
+
+           @IBOutlet weak var tituloQuestaoLabel: UILabel!
+
+            override func viewDidLoad() {
+        super.viewDidLoad()
+
+            navigationItem.hidesBackButton = true
+
+                }
+// trecho de código suprimidoCOPIAR CÓDIGO
+Observe que na janela exibida, temos os seguintes campos:
+
+Connection: Outlet
+Object: Questao View Controller
+Name:
+Type: UILabel
+Storage: Weak
+Em "name", digitaremos "tituloQuestaoLabel". Sejam bastante descritivos no nome para ficar intuitivo!
+
+Connection: Outlet
+Object: Questao View Controller
+Name: tituloQuestaoLabel
+Type: UILabel
+Storage: Weak
+Logo após, clicamos no botão "Connect", no canto inferior direito.
+
+Agora precisamos conectar as ações dos nossos botões. Com essa finalidade, novamente pressionamos a tecla "Ctrl" sobre o primeiro botão de cima para baixo chamado de "Resposta 01" e arrastamos até o código do lado direito.
+
+Uma vez arrastado, será exibida a janela para inserirmos os campos que já conhecemos. Preencheremos:
+
+Observe que na janela exibida, temos os seguintes campos:
+
+Connection: Action
+Object: Questao View Controller
+Name: respostaBotaoPressionado
+Type: Touch Up Inside
+Event: Weak
+Arguments: Sender
+Em seguida, clicamos no botão "Connect". Após isso, o código ficará:
+
+QuestaoViewController
+import UIKit
+
+class QuestaoViewController:
+        UIViewController {
+
+           @IBOutlet weak var tituloQuestaoLabel: UILabel!
+
+                     @IBAction func respostaBotaoPressionado(_ sender: Any) {
+                     }
+
+           override func viewDidLoad() {
+                            super.viewDidLoad()
+
+                            navigationItem.hidesBackButton = true
+
+                }
+// trecho de código suprimidoCOPIAR CÓDIGO
+Mas vamos pensar: precisamos capturar as ações dos três botões, isso porque a pessoa usuária pode clicar em qualquer um deles no momento de escolher a resposta. Assim, ao invés de criarmos uma função para cada botão, desejamos colocar os três botões em uma única função.
+
+Isso para nos ajudar a identificar quando a pessoa usuária seleciona a resposta para verificar se está correta ou não. Vamos analisar uma coisa interessante: vamos selecionar o segundo botão chamado de "Resposta 02", pressionar "Ctrl" e arrastar para a função respostaBotaoPressionado.
+
+Observe que ao fazermos isso, a função exibe um destaque na cor azul. Podemos soltar. Faremos o mesmo processo para o botão chamado de "Resposta 03", pressionamos o "Ctrl", arrastamos e soltamos na função.
+
+Agora, ao colocarmos o mouse por cima do círculo do lado esquerdo da linha 14, podemos visualizar que os três botões do nosso aplicativo estão destacados na tela do nosso aplicativo.
+
+Isso significa que ao pressionarmos um botão, a função respostaBotaoPressionado será disparada. Por exemplo, se pressionarmos o primeiro botão, essa função será acionada; e se pressionarmos o segundo botão, também, e assim por diante.
+
+Conseguimos diferenciar esses botões! Ao analisarmos as propriedades do botão denominado "Resposta 01" (para isso, precisamos pressionar o botão), percebemos que no menu lateral direito está com o último ícone selecionado, da esquerda para a direita. Nele, temos as seguintes seções com seus respectivos atributos (não serão exibidas todas as seções e atributos):
+
+Triggered Segues
+action
+Outlet Collections
+gestureRecognizers
+Sent Events
+Did End On Exit
+Editing Changed
+Editing Did Begin
+…
+Touch Up Inside
+Colocando o mouse sobre o último ícone temos a mensagem "Show the Connections inspector" (em português, "Mostrar o inspetor de conexões"). Ou seja, é um inspetor de conexões, exibindo todas as conexões que estamos aplicando no elemento do StoryBoard para o código.
+
+Caso você queira remover alguma conexão, basta selecionar o ícone de xis "X" no canto superior esquerdo, por exemplo, na caixa do lado direito do "Touch Up Inside". Mas não iremos remover nenhuma conexão agora.
+
+Vamos ao painel de atributos, e em "View", temos uma Tag com um número um preenchido no campo. No meu caso está com o número um, pois já realizei essa alteração anteriormente; mas provavelmente, o seu estará com o número zero.
+
+Essa tag funciona como um identificador, para sabermos qual o botão está sendo selecionado. Então, altere de zero para um caso esteja com a tag zerada.
+
+Se clicarmos no botão "Resposta 02", a minha tag estará com o número dois; provavelmente a sua estará zerada, então insira o número dois. A mesma lógica se aplica para o botão "Resposta 03", precisamos ter o campo tag preenchida com o número três.
+
+Vamos testar!
+
+No código, dentro da função respostaBotaoPressionado exibiremos no console o sender.tag. Mas note: não aconteceu nenhum autocomplete do XCode e ele está nos comunicando o seguinte erro:
+
+Value of type 'Any' has no member 'tag'
+Cast 'Any' to 'AnyObject' or use 'as!' to force downcast to a more specific type to access members
+
+Ou seja, o tipo "Any" (em português, "Qualquer") não possui nenhum membro tag. Isso porque nos parâmetros da nossa função recebemos um objeto do tipo Any, e na verdade precisamos alterar para UIButton.
+
+QuestaoViewController
+import UIKit
+
+class QuestaoViewController:
+        UIViewController {
+
+           @IBOutlet weak var tituloQuestaoLabel: UILabel!
+
+                     @IBAction func respostaBotaoPressionado(_ sender: UIButton) {
+                     print(sender.tag)
+                     }
+
+           override func viewDidLoad() {
+                            super.viewDidLoad()
+
+                            navigationItem.hidesBackButton = true
+
+                }
+
+// trecho de código suprimidoCOPIAR CÓDIGO
+Isso porque sabemos que estamos recebendo um botão. Logo, mudamos para UIButton e agora, se removermos o "tag" do print e simplesmente deixarmos sender., perceba que o XCode aciona o autocomplete, serão exibidas todas as propriedades e métodos de um botão. Mas deixaremos com o .tag.
+
+Vamos executar o código!
+
+Após rodarmos o código, na tela inicial do nosso aplicativo clicamos no botão "Iniciar Quiz"; seremos redirecionados para a tela de questões, onde clicamos no botão "Reposta 01".
+
+Na sequência, voltamos ao XCode para visualizarmos o console. Nele, temos como retorno o número um.
+
+O botão foi pressionado!
+1
+
+Esse número um é o valor da tag.
+
+Voltando à nossa tela de questões do aplicativo, clicamos no botão "Resposta 02"; retornamos ao XCode, e temos como retorno no console o número 2:
+
+O botão foi pressionado!
+1
+
+2
+
+É dessa forma que vamos trabalhar para verificarmos a resposta da pessoa usuária. Aprenderemos mais sobre isso mais adiante, não se preocupe.
+
+O nosso próximo desafio será arredondar as bordas dos botões. Ao invés de criarmos um outlet para cada botão (isso para evitar repetição de código), como podemos aplicar isso de forma mais eficiente?
+
+Podemos criar uma coleção, um array de botões. Veremos agora como aplicar isso na prática.
+
+No XCode, clicamos no primeiro botão "Resposta 01"; e então pressionar a tecla "Ctrl" e arrastar para o código do arquivo QuestaoViewController. Na janela exibida, temos:
+
+Connection: Outlet
+Object: Questao View Controller
+Name:
+Type: UIButton
+Storage: Weak
+Em "Connection" ao invés de "Outlet" colocaremos "Outlet Collection" que será uma coleção, nesse caso, de botões.
+
+Connection: Outlet Collection
+Object: Questao View Controller
+Name: botoesRespostas
+Type: UIButton
+Storage: Weak
+Logo após, clicamos em "Connect". Assim, o código ficará:
+
+QuestaoViewController
+import UIKit
+
+class QuestaoViewController:
+        UIViewController {
+
+           @IBOutlet weak var tituloQuestaoLabel: UILabel!
+
+                     @IBOutlet var botoesResposta: [UIButton]!
+
+                     @IBAction func respostaBotaoPressionado(_ sender: UIButton) {
+                     print(sender.tag)
+                     }
+
+           override func viewDidLoad() {
+                            super.viewDidLoad()
+
+                            navigationItem.hidesBackButton = true
+
+                }
+
+// trecho de código suprimidoCOPIAR CÓDIGO
+Do lado esquerdo da linha da função botoesResposta, temos o círculo e ao colocarmos o mouse por cima, observe que o botão "Resposta 02" também estará selecionado, assim como o botão "Resposta 01".
+
+Faremos a mesma coisa para "Resposta 03", selecionamos o círculo do lado esquerdo da linha da função botoesResposta e arrastamos segurando "Ctrl" para o botão "Resposta 03" na nossa tela de questões.
+
+Com isso, notamos que os três botões estão selecionados e dentro dessa coleção de botões.
+
+Você lembra como percorremos uma coleção (array)? Podemos usar o comando for. Logo, após a nossa viewDidLoad criaremos um método chamado de configurarLayout (igual fizemos na primeira tela).
+
+QuestaoViewController
+import UIKit
+
+class QuestaoViewController:
+        UIViewController {
+
+           @IBOutlet weak var tituloQuestaoLabel: UILabel!
+
+                     @IBOutlet var botoesResposta: [UIButton]!
+
+                     @IBAction func respostaBotaoPressionado(_ sender: UIButton) {
+                     print(sender.tag)
+                     }
+
+           override func viewDidLoad() {
+                            super.viewDidLoad()
+
+                            navigationItem.hidesBackButton = true
+
+                }
+
+                        func configurarLayout() { 
+
+                        }
+
+// trecho de código suprimidoCOPIAR CÓDIGO
+Em seguida, copiamos a linha navigationItem.hidesBackButton = true e passamos para dentro da função configurarLayout; removemos essa linha de dentro da função viewDidLoad e passamos a função configurarLayout.
+
+QuestaoViewController
+import UIKit
+
+class QuestaoViewController:
+        UIViewController {
+
+           @IBOutlet weak var tituloQuestaoLabel: UILabel!
+
+                     @IBOutlet var botoesResposta: [UIButton]!
+
+                     @IBAction func respostaBotaoPressionado(_ sender: UIButton) {
+                     print(sender.tag)
+                     }
+
+           override func viewDidLoad() {
+                            super.viewDidLoad()
+
+                            configurarLayout()
+                }
+
+                        func configurarLayout() { 
+                                navigationItem.hidesBackButton = true
+                        }
+
+// trecho de código suprimidoCOPIAR CÓDIGO
+Eu, Giovanna, gosto bastante de separar as responsabilidades e acoplar o código.
+
+Seguindo, dentro da função configurarLayout vamos percorrer esse array de botões. Para isso, escrevemos "for botao in botoesResposta{}"
+
+QuestaoViewController
+import UIKit
+
+class QuestaoViewController:
+        UIViewController {
+
+           @IBOutlet weak var tituloQuestaoLabel: UILabel!
+
+                     @IBOutlet var botoesResposta: [UIButton]!
+
+                     @IBAction func respostaBotaoPressionado(_ sender: UIButton) {
+                     print(sender.tag)
+                     }
+
+           override func viewDidLoad() {
+                            super.viewDidLoad()
+
+                            configurarLayout()
+                }
+
+                        func configurarLayout() { 
+                                navigationItem.hidesBackButton = true
+                                for botao in botoesResposta {
+
+                                }
+                        }
+
+// trecho de código suprimidoCOPIAR CÓDIGO
+Dentro do for, vamos alterar o arredondamento dos cantos desses botões. Para tal, digitamos "botao.layer.cornerRadius = 12.0".
+
+QuestaoViewController
+import UIKit
+
+class QuestaoViewController:
+        UIViewController {
+
+           @IBOutlet weak var tituloQuestaoLabel: UILabel!
+
+                     @IBOutlet var botoesResposta: [UIButton]!
+
+                     @IBAction func respostaBotaoPressionado(_ sender: UIButton) {
+                     print(sender.tag)
+                     }
+
+           override func viewDidLoad() {
+                            super.viewDidLoad()
+
+                            configurarLayout()
+                }
+
+                        func configurarLayout() { 
+                                navigationItem.hidesBackButton = true
+                                for botao in botoesResposta {
+                                botao.layer.cornerRadius = 12.0
+                                }
+                        }
+
+// trecho de código suprimidoCOPIAR CÓDIGO
+Em seguida, executamos o código.
+
+Após aguardar a execução do código, na tela inicial do nosso aplicativo clicamos em "Iniciar Quiz"; e na tela de questões conseguimos observar que os botões estão mais arredondados nas arestas.
+
+Tela do aplicativo preenchida com a cor roxa de plano de fundo. Centralizado na tela, temos o título chamado de "Título da Questão" escrito na cor branca; abaixo deste, temos as três respostas com os respectivos textos: Resposta 01, Resposta 02 e Resposta 03. Todos estão preenchidos com uma cor em um tom mais claro que o fundo da tela, voltado para o lilás, com o texto escrito na cor branca. As arestas dos botões estão mais arredondadas que nas telas anteriores, onde as arestas tinham um ângulo de noventa graus.
+
+Com isso, criamos o layout da tela de questões. Agora, precisamos tornar as coisas mais dinâmicas, afinal, precisamos inserir as perguntas e respostas. É isso que faremos na sequência.
+
+Até mais!
+
+@@05
+Auto Layout
+
+No desenvolvimento do nosso aplicativo, vimos que precisamos criar os elementos e posicioná-los na tela de acordo com o protótipo de layout do Figma.
+Assim, precisamos colocar os elementos de uma forma que eles funcionem em qualquer dispositivo, independente do tamanho de tela.
+
+Como podemos resolver esse problema na prática?
+
+Não precisamos utilizar o “Auto Layout”, já que os elementos se ajustam por padrão, sem precisarmos realizar nenhuma operação.
+ 
+Alternativa correta
+O “Auto Layout” é a solução, pois ajuda a calcular dinamicamente o tamanho e a posição de todas os elementos (views), com base nas restrições (constraints) colocadas.
+ 
+Isso mesmo! Auto Layout é um sistema de layout que permite que você defina as relações entre os elementos na tela da sua aplicação iOS, ao invés de usar posições absolutas ou dimensões fixas. Assim, o layout será responsivo e funcionará em diferentes dispositivos.
+Alternativa correta
+Podemos adicionar constraints de posições para as 4 margens de um elemento, que são definidas como: top, bottom, left, right.
+ 
+Alternativa correta
+Para aplicar as regras de constraint e posicionar um botão, consideramos a posição dele em relação a um elemento (como um outro botão) próximo dele.
+ 
+Isso aí! Podemos definir regras de posicionamento de um elemento em relação a outros elementos.
+Alternativa correta
+Com o Auto Layout, controlamos apenas a posição de uma determinada view, mas não o seu tamanho.
+
+@@06
+Faça como eu fiz: tela de questão
+
+Agora é a sua vez! Chegou a hora de você seguir todos os passos realizados por mim durante esta aula. Portanto:
+Adicione elementos na tela via interface builder;
+Defina constraints para os elementos da tela;
+Conecte os botões com o código através de uma coleção de @IBOutlet;
+Conecte as ações dos botões com o código através do @IBAction.
+Caso já tenha feito esses passos, excelente. Se ainda não, é importante que você execute o que foi visto nos vídeos para poder continuar com a próxima aula.
+
+O ideal é que você tente replicar os passos por conta própria para validar seu aprendizado. Porém, caso tenha dificuldade, fique à vontade para dar uma olhadinha nos vídeos!
+Vamos lá?
+
+Opinião do instrutor
+
+O objetivo desta atividade é estimular a prática necessária para seu aprendizado!
+Você pode conferir o código do projeto até o momento através desta branch no GitHub.
+
+Se precisar de ajuda, chama a gente no fórum ou discord!
+
+https://github.com/alura-cursos/ios-construindo-seu-primeiro-aplicativo/tree/aula-03
+
+@@07
+O que aprendemos?
+
+Nessa aula, você aprendeu e praticou ainda mais sobre como:
+Posicionar elementos conforme o layout do Figma com o uso de constraints;
+Conectar elementos do storyboard no código (como botões);
+Alterar propriedades de elementos via código, ou seja, deixar um botão com borda arredondada, por exemplo.
+Tudo certo até aqui?
+
+Se precisar de ajuda, acione a gente lá no fórum ou discord.
+
+Nos vemos na próxima aula!
+ 
