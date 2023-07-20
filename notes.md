@@ -1391,4 +1391,937 @@ Tudo certo até aqui?
 Se precisar de ajuda, acione a gente lá no fórum ou discord.
 
 Nos vemos na próxima aula!
+
+#### 20/07/2023
+
+@04-Modelagem dos dados
+
+@@01
+Projeto da aula anterior
+
+Você pode acompanhar o passo a passo do desenvolvimento do nosso projeto no Github e, caso deseje, pode baixar o projeto da aula anterior.
+Bons estudos!
+
+https://github.com/alura-cursos/ios-construindo-seu-primeiro-aplicativo/tree/aula-03
+
+https://github.com/alura-cursos/ios-construindo-seu-primeiro-aplicativo/archive/refs/heads/aula-03.zip
+
+@@02
+Criando modelo das questões
+
+Precisamos deixar o nosso aplicativo mais dinâmico, isto é, criar a estrutura das questões. Cada questão terá:
+um título;
+as alternativas;
+e a resposta correta.
+Quando nos referimos a criar uma estrutura, podemos usar structs ou classes para gerar esse molde de dados. Afinal, a questão é um molde que usaremos para formar as demais perguntas. É o que faremos agora!
+
+Na estrutura de arquivos do lado esquerdo do XCode, clicamos com o botão direito do mouse na pasta iQuiz e escolhemos a opção "New File". Porém, agora ele não será um arquivo sobre layout, e sim, um arquivo Swift mesmo.
+
+Na janela para escolhermos o arquivo, com o iOS selecionado na barra superior, selecionamos a primeira opção "Swift File" e clicamos no botão "Next", no canto inferior direito. Nomearemos o arquivo de "Questao" e selecionamos o botão "Create".
+
+Seremos redirecionados para o arquivo que acabamos de criar, que por enquanto estará da seguinte forma:
+
+Questao.swift
+//
+//  Questao.swift
+//  iQuiz
+//
+//  Created by Alura on 27/01/23.
+//
+
+import FoundationCOPIAR CÓDIGO
+Ao invés de uma classe usaremos struct, porque ela é mais simples e para o que estamos desenvolvendo (sem usar herança ou algo nesse sentido) a struct já é o suficiente.
+
+Abaixo do import Foundation, escrevemos "struct Questao {}".
+
+Questao.swift
+//
+//  Questao.swift
+//  iQuiz
+//
+//  Created by Alura on 27/01/23.
+//
+
+import Foundation
+
+struct Questao {
+
+}COPIAR CÓDIGO
+Dentro da struct, vamos colocar alguns atributos, como o título, as respostas e a resposta correta; para todos colocaremos um var antes, o nome e o tipo de dado. Por exemplo, "var titulo: String".
+
+Questao.swift
+//
+//  Questao.swift
+//  iQuiz
+//
+//  Created by Alura on 27/01/23.
+//
+
+import Foundation
+
+struct Questao {
+    var titulo: String
+    var respostas: [String]
+    var respostaCorreta: Int
+}COPIAR CÓDIGO
+Em respostas, usamos o [String] por ser uma array com três respostas. Já a nossa respostaCorreta será do tipo inteiro porque irá armazenar o índice da resposta correta desse array de string resposta.
+
+Teremos várias questões no aplicativo, então fora dessa struct Questao podemos criar um array de questões para ser usado na ViewController. Para isso, criamos uma constante chamada de questoes que será um array de questão, logo escrevemos "[Questao] = []". No caso, estamos deixando o tipo explícito, mas não é necessário.
+
+Questao.swift
+//
+//  Questao.swift
+//  iQuiz
+//
+//  Created by Alura on 27/01/23.
+//
+
+import Foundation
+
+struct Questao {
+    var titulo: String
+    var respostas: [String]
+    var respostaCorreta: Int
+}
+
+let questoes: [Questao] = [
+
+]COPIAR CÓDIGO
+O primeiro elemento desse array será a Questao(), vamos inicializar e instanciar uma questão. No parênteses, passamos o titulo, as respostas e a respostaCorreta.
+
+No titulo, podemos voltar ao Figma para copiar a primeira questão: "Qual feitiço para desarmar o seu oponente, em Harry Potter?". Depois, copiamos as repostas e colamos, separando as entre vírgula e dentro de colchetes (por ser um array de string).
+
+Questao(titulo: "Qual feitiço para desarmar o seu oponente, em Harry Potter?", respostas: ["Expecto Patronum", "Avada Kedavra", "Expelliarmus"], ),COPIAR CÓDIGO
+Na sequência, inserimos a respostaCorreta passando o número dois. Isso porque a resposta correta está no índice dois, a Expelliarmus (lembrando que o array inicia a sua contagem no índice zero).
+
+Questao.swift
+//
+//  Questao.swift
+//  iQuiz
+//
+//  Created by Alura on 27/01/23.
+//
+
+import Foundation
+
+struct Questao {
+    var titulo: String
+    var respostas: [String]
+    var respostaCorreta: Int
+}
+
+let questoes: [Questao] = [
+    Questao(titulo: "Qual feitiço para desarmar o seu oponente, em Harry Potter?", respostas: ["Expecto Patronum", "Avada Kedavra", "Expelliarmus"], respostaCorreta: 2),
+
+]COPIAR CÓDIGO
+Faremos a mesma lógica para as outras questões.
+
+Perguntas que a instutora usou no exemplo e suas respectivas alternativas:
+Quando foi lançado o filme Avatar 2?
+2014
+2022
+2023
+Quando foi lançado o filme Vingadores Ultimato?
+2019
+2018
+2017
+Assim, o código ficará:
+
+Questao.swift
+//
+//  Questao.swift
+//  iQuiz
+//
+//  Created by Alura on 27/01/23.
+//
+
+import Foundation
+
+struct Questao {
+    var titulo: String
+    var respostas: [String]
+    var respostaCorreta: Int
+}
+
+let questoes: [Questao] = [
+    Questao(titulo: "Qual feitiço para desarmar o seu oponente, em Harry Potter?", respostas: ["Expecto Patronum", "Avada Kedavra", "Expelliarmus"], respostaCorreta: 2),
+    Questao(titulo: "Quando foi lançado o filme Avatar 2?", respostas: ["2014", "2022", "2023"], respostaCorreta: 1),
+    Questao(titulo: "Quando foi lançado o filme Vingadores Ultimato?", respostas: ["2019", "2018", "2017"], respostaCorreta: 0),
+
+]COPIAR CÓDIGO
+Você pode escolher as perguntas que desejar para construir o seu aplicativo!
+
+Um ponto interessante do iOS, é que mesmo definindo esse array de questão dentro do arquivo Questao, podemos ir na QuestaoViewController e acessar esse array sem nenhuma importação.
+
+Na QuestaoViewController criaremos dois atributos: a pontuação (que acrescentaremos um caso a pessoa usuária acerte a resposta) e o número da questão que a pessoa usuária está.
+
+Isso porque a nossa tela é totalmente dinâmica, não vamos criar uma tela para cada questão. Faremos isso de forma dinâmica e manipulando as variáveis. Isso vai ficar muito interessante, vocês vão ver!
+
+O nosso arquivo QuestaoViewController está assim, por enquanto:
+
+QuestaoViewController
+import UIKit
+
+class QuestaoViewController:
+        UIViewController {
+
+           @IBOutlet weak var tituloQuestaoLabel: UILabel!
+           @IBOutlet var botoesResposta: [UIButton]!
+
+           @IBAction func respostaBotaoPressionado(_ sender: UIButton) {
+                     print(sender.tag)
+                     }
+
+           override func viewDidLoad() {
+               super.viewDidLoad()
+                             // Do any additional setup after loading the view
+               configurarLayout()
+                }
+
+           func configurarLayout() { 
+               navigationItem.hidesBackButton = true
+               for botao in botoesResposta {
+                                     botao.layer.cornerRadius = 12.0
+                                }
+                        }
+
+// trecho de código suprimidoCOPIAR CÓDIGO
+Criaremos as variáveis após definirmos a classe, sendo a pontuacao e a numeroQuestao, ambas serão inicializadas no zero. Isso porque estamos trabalhando com arrays e o índice inicia pelo zero, temos um array de questões.
+
+QuestaoViewController
+import UIKit
+
+class QuestaoViewController:
+        UIViewController {
+
+                     var pontuacao = 0
+                     var numeroQuestao = 0
+
+           @IBOutlet weak var tituloQuestaoLabel: UILabel!
+           @IBOutlet var botoesResposta: [UIButton]!
+
+           @IBAction func respostaBotaoPressionado(_ sender: UIButton) {
+                     print(sender.tag)
+                     }
+
+           override func viewDidLoad() {
+               super.viewDidLoad()
+                             // Do any additional setup after loading the view
+               configurarLayout()
+                }
+
+           func configurarLayout() { 
+               navigationItem.hidesBackButton = true
+               for botao in botoesResposta {
+                                     botao.layer.cornerRadius = 12.0
+                                }
+                        }
+
+// trecho de código suprimidoCOPIAR CÓDIGO
+Descendo o código, após a função configurarLayout criaremos a func configurarQuestao() {}. Logo após, chamamos esse método dentro do viewDidLoad após o configurarLayout().
+
+QuestaoViewController
+import UIKit
+
+class QuestaoViewController:
+        UIViewController {
+
+                     var pontuacao = 0
+                     var numeroQuestao = 0
+
+           @IBOutlet weak var tituloQuestaoLabel: UILabel!
+           @IBOutlet var botoesResposta: [UIButton]!
+
+           @IBAction func respostaBotaoPressionado(_ sender: UIButton) {
+                     print(sender.tag)
+                     }
+
+           override func viewDidLoad() {
+               super.viewDidLoad()
+
+                             // Do any additional setup after loading the view
+               configurarLayout()
+                             configurarQuestao()
+            }
+
+           func configurarLayout() { 
+               navigationItem.hidesBackButton = true
+               for botao in botoesResposta {
+                                     botao.layer.cornerRadius = 12.0
+                                }
+           }
+
+                     func configurarQuestao() { 
+
+                    }
+
+// trecho de código suprimidoCOPIAR CÓDIGO
+O que precisamos configurar? No caso, precisamos configurar o tituloQuestaoLabel (o título da questão) e os botoesResposta (as alternativas).
+
+Na função configurarQuestao, escrevemos "tituloQuestaoLabel" e na sequência colocamos ".text", sendo a propriedade que altera o texto de uma label.
+
+tituloQuestaoLabel.textCOPIAR CÓDIGO
+Isso será igual ao questoes (o nosso array de questões que definimos no arquivo Questao) e por ser um array precisamos acessar por um índice, sendo o numeroQuestao. E na sequência, pegamos a propriedade do título usando .titulo.
+
+    func configurarQuestao() {
+        tituloQuestaoLabel.text = questoes[numeroQuestao].titulo
+
+    }COPIAR CÓDIGO
+Lembrando que questão é um modelo, uma struct que possui os seus atributos.
+
+Assim, o código ficará:
+
+QuestaoViewController
+import UIKit
+
+class QuestaoViewController:
+        UIViewController {
+
+                     var pontuacao = 0
+                     var numeroQuestao = 0
+
+           @IBOutlet weak var tituloQuestaoLabel: UILabel!
+           @IBOutlet var botoesResposta: [UIButton]!
+
+           @IBAction func respostaBotaoPressionado(_ sender: UIButton) {
+                     print(sender.tag)
+                     }
+
+           override func viewDidLoad() {
+               super.viewDidLoad()
+
+                             // Do any additional setup after loading the view
+               configurarLayout()
+                             configurarQuestao()
+            }
+
+           func configurarLayout() { 
+               navigationItem.hidesBackButton = true
+               for botao in botoesResposta {
+                                     botao.layer.cornerRadius = 12.0
+                                }
+           }
+
+                    func configurarQuestao() {
+                            tituloQuestaoLabel.text = questoes[numeroQuestao].titulo
+                    }
+
+// trecho de código suprimidoCOPIAR CÓDIGO
+Executaremos o código, teclando "Command + R".
+
+Na tela inicial do nosso aplicativo, clicamos no botão "Iniciar Quiz"; na tela de questão observe que ela não é exibida por completo e com reticências.
+
+Qual feitiço para…
+Resposta 01
+Resposta 02
+Resposta 03
+Isso não ficou legal, não é? Voltando ao XCode, dentro da função configurarLayout escrevemos "tituloQuestaoLabel.numberOfLines = 0".
+
+    func configurarLayout() {
+        tituloQuestaoLabel.numberOfLines = 0
+        for botao in botoesResposta {
+            botao.layer.cornerRadius = 12.0
+        }COPIAR CÓDIGO
+Assim, ele irá alterar o número de linhas para automático.
+
+Voltando ao nosso aplicativo, na tela inicial clicamos no botão "Iniciar Quiz" e observe que na tela de questões agora consta a pergunta completa. Porém, ela está descentralizado e alinhada mais à esquerda.
+
+Para centralizarmos o título, novamente dentro da função configurarLayout acrescentamos a linha "tituloQuestaoLabel.textAlignment = .center". Sendo o textAlignment a propriedade que usamos para configurar o alinhamento do texto.
+
+    func configurarLayout() {
+        tituloQuestaoLabel.numberOfLines = 0
+        tituloQuestaoLabel.textAlignment = .center
+        navigationItem.hidesBackButton = true
+        for botao in botoesResposta {
+            botao.layer.cornerRadius = 12.0
+        }COPIAR CÓDIGO
+Executando o código, na tela inicial do nosso aplicativo clicamos em "Iniciar Quiz" e na tela de questões temos a pergunta completa e centralizada na tela! Está pegando o primeiro elemento do array de questões e está setando esse título.
+
+No próximo vídeo, vamos focar nos botões. Te espero lá!
+
+@@03
+Configurando a resposta da questão
+
+Agora precisamos configurar as respostas das questões pelos botões. Para isso, vamos ao arquivo QuestaoViewController dentro do método configurarQuestao.
+QuestaoViewController
+// trecho de código suprimido
+
+    func configurarQuestao() {
+        tituloQuestaoLabel.text = questoes[numeroQuestao].titulo
+
+    }
+
+// trecho de código suprimidoCOPIAR CÓDIGO
+Observe que já configuramos o label do título da questão, e agora vamos configurar os botões. A primeira coisa que faremos será percorrer cada botão usando o comando for. Dentro da função configurarQuestao, escrevemos "for botao in botoesResposta{}".
+
+QuestaoViewController
+// trecho de código suprimido
+
+    func configurarQuestao() {
+        tituloQuestaoLabel.text = questoes[numeroQuestao].titulo
+                for botao in botoesResposta {
+
+                }
+    }
+
+// trecho de código suprimidoCOPIAR CÓDIGO
+Qual a ideia? Voltando ao arquivo Main (lado esquerdo do XCode), na tela de questões, cada botão possui uma tag. Porém, no meu caso a propriedade tag está iniciando no número um, e ela deve iniciar no zero.
+
+Então, selecionando o botão "Resposta 01" e do lado direito, em "tag", alterar de um para zero. Isso porque essa tag corresponderá ao índice do array de string.
+
+Voltando ao arquivo Questao para visualizarmos melhor, temos:
+
+Questao
+import Foundation
+
+struct Questao {
+    var titulo: String
+    var respostas: [String]
+    var respostaCorreta: Int
+}
+
+let questoes: [Questao] = [
+    Questao(titulo: "Qual feitiço para desarmar o seu oponente, em Harry Potter?", respostas: ["Expecto Patronum", "Avada Kedavra", "Expelliarmus"], respostaCorreta: 2),
+    Questao(titulo: "Quando foi lançado o filme Avatar 2?", respostas: ["2014", "2022", "2023"], respostaCorreta: 1),
+    Questao(titulo: "Quando foi lançado o filme Vingadores Ultimato?", respostas: ["2019", "2018", "2017"], respostaCorreta: 0),
+
+]COPIAR CÓDIGO
+A struct Questao possui um atributo chamado de respostas, sendo um array de strings. E são essas respostas que estão vinculadas aos botões, porque cada resposta irá ser exibida em um botão diferente.
+
+Portanto, no arquivo Main (Storyboard) na tela de questões (após alterarmos a tag do botão "Resposta 01" de um para zero), vamos alterar a tag do segundo botão de dois para um; e a tag do terceiro botão de três para dois.
+
+Botão "Resposta 01": tag 0
+Botão "Resposta 02": tag 1
+Botão "Resposta 03": tag 2
+Isso porque como um array inicia no índice zero, esse atributo tag precisar estar em conformidade para que o nosso array não explode, e sim gere aquele erro de índex fora do limite. Vamos visualizar na prática.
+
+Voltando ao arquivo QuestaoViewController, dentro do comando for da função configurarQuestao precisamos mudar o título desse botão. Para isso, usamos um método chamado de setTitle; e então, colocamos o title que é uma string.
+
+QuestaoViewController
+// trecho de código suprimido
+
+    func configurarQuestao() {
+        tituloQuestaoLabel.text = questoes[numeroQuestao].titulo
+                for botao in botoesResposta {
+
+                botao.setTitle(title: String?, for: UIControl.State)
+                }
+    }
+
+// trecho de código suprimidoCOPIAR CÓDIGO
+Acima do setTitle, criaremos uma constante para armazenar o título do botão chamado de tituloBotao, escrevemos "let tituloBotao =". Isso será igual ao o que?
+
+Temos o array de questoes[], precisamos acessar esse array no índice numeroQuestao, então dentro do colchetes colocamos isso.
+
+let tituloBotao = questoes[numeroQuestao]COPIAR CÓDIGO
+Na sequência, colocamos o atributo chamado de respostas[] que também é um array. O índice desse array de respostas é a nossa tag do botão.
+
+let tituloBotao = questoes[numeroQuestao].respostas[botao.tag]COPIAR CÓDIGO
+Assim, ficará:
+
+QuestaoViewController
+// trecho de código suprimido
+
+    func configurarQuestao() {
+        tituloQuestaoLabel.text = questoes[numeroQuestao].titulo
+                for botao in botoesResposta {
+                let tituloBotao = questoes[numeroQuestao].respostas[botao.tag]
+                botao.setTitle(title: String?, for: UIControl.State)
+                }
+    }
+
+// trecho de código suprimidoCOPIAR CÓDIGO
+Por isso ele precisa iniciar no zero, porque se temos três respostas o nosso array vai de zero até dois (0, 1 e 2); se a tag do botão for de um até três, o número três já não é mais o índice do array. Logo, esse array irá explodir.
+
+Voltando ao setTitle, colocamos dentro do parênteses a constante tituloBotao. Esse for é o estado do botão, se colocarmos um ponto visualizamos o menu flutuante com todos os estados disponíveis, como o disabled (desativado). No caso, vamos escolher a opção "normal".
+
+QuestaoViewController
+// trecho de código suprimido
+
+    func configurarQuestao() {
+        tituloQuestaoLabel.text = questoes[numeroQuestao].titulo
+                for botao in botoesResposta {
+                let tituloBotao = questoes[numeroQuestao].respostas[botao.tag]
+                botao.setTitle(tituloBotao, for: .normal)
+                }
+    }
+
+// trecho de código suprimidoCOPIAR CÓDIGO
+Em seguida, executamos o código.
+
+No nosso aplicativo, na tela inicial clicamos em "Iniciar Quiz"; e na tela de questões temos todas as alternativas (respostas) que inserimos do nosso array.
+
+Qual feitiço para desarmar o seu oponente, em Harry Potter?
+Expecto Patronum
+Avada Kedavra
+Expelliarmus
+Está funcionando conforme o esperado!
+
+Vamos voltar ao XCode para fazermos a verificação se a pessoa usuária selecionou a resposta correta.
+
+Dentro da função respostaBotaoPressionado, temos acesso ao sender.tag. Isso quer dizer que estamos pegando a tag do botão que a pessoa usuária pressionou.
+
+QuestaoViewController
+// trecho de código suprimido
+
+    @IBAction func respostaBotaoPressionado(_ sender: UIButton) {
+        print (sender.tag)
+        }
+
+// trecho de código suprimidoCOPIAR CÓDIGO
+Logo, precisamos verificar se esse sender.tag é igual a resposta correta do nosso array. Caso seja igual, precisamos adicionar um no atributo pontuacao.
+
+Isso porque temos a tela final de desempenho, com o número de questões que a pessoa usuária acertou e o percentual final.
+
+Dentro da função respostaBotaoPressionado, vamos remover a exibição do sender.tag e criar uma constante chamada de usuarioAcertouResposta.
+
+QuestaoViewController
+// trecho de código suprimido
+
+    @IBAction func respostaBotaoPressionado(_ sender: UIButton) {
+        let usuarioAcertouResposta = 
+    }
+
+// trecho de código suprimidoCOPIAR CÓDIGO
+Vamos igualar essa variável usuarioAcertouResposta ao array de questoes no índice numeroQuestao; e então, na sequência colocamos que a respostaCorreta é igual a tag do botão que a pessoa usuária pressionou (sender.tag).
+
+QuestaoViewController
+// trecho de código suprimido
+
+    @IBAction func respostaBotaoPressionado(_ sender: UIButton) {
+        let usuarioAcertouResposta = questoes[numeroQuestao].respostaCorreta == sender.tag 
+    }
+
+// trecho de código suprimidoCOPIAR CÓDIGO
+Em suma, nesse trecho de código estamos armazenando na constante usuarioAcertouResposta se o array de questões no número da questão, a resposta correta é igual ao sender.tag (identificação do botão).
+
+Se essa constante for verdadeira, usaremos a condicional if usuarioAcertouResposta e acrescentamos um na pontuacao; se a pessoa usuária errou, não faremos nada.
+
+QuestaoViewController
+// trecho de código suprimido
+
+    @IBAction func respostaBotaoPressionado(_ sender: UIButton) {
+        let usuarioAcertouResposta = questoes[numeroQuestao].respostaCorreta == sender.tag 
+
+    if usuarioAcertouResposta {
+        pontuacao += 1
+    }
+}
+
+// trecho de código suprimidoCOPIAR CÓDIGO
+Dentro da condicional if, colocaremos a seguinte mensagem: "O usuário acertou!".
+
+QuestaoViewController
+// trecho de código suprimido
+
+    @IBAction func respostaBotaoPressionado(_ sender: UIButton) {
+        let usuarioAcertouResposta = questoes[numeroQuestao].respostaCorreta == sender.tag 
+
+    if usuarioAcertouResposta {
+        pontuacao += 1
+                print("O usuário acertou!")
+    }
+}
+
+// trecho de código suprimidoCOPIAR CÓDIGO
+Em seguida, executamos o código!
+
+Na tela inicial do aplicativo clicamos no botão "Iniciar Quiz"; na tela seguinte escolhemos a opção "Expelliarmus".
+
+Voltando ao console do XCode, temos a mensagem esperada como retorno:
+
+O usuário acertou!
+Com isso, a nossa pontuação acrescentou em um.
+
+Executaremos o código novamente, e na tela de questões vamos clicar na opção errada, em "Expecto Patronum". Voltando ao console do XCode, perceba que não foi exibida a mensagem "O usuário acertou!".
+
+Assim, capturamos quando a pessoa usuária acerta ou erra a resposta. O nosso próximo passo é alterar a cor de fundo do botão em caso de acerto ou erro.
+
+@@04
+Próxima questão e alterando cor de fundo do botão
+
+Antes de alterar a cor de fundo do botão em caso de acerto ou erro da questão, precisamos implementar a funcionalidade para seguirmos para a próxima pergunta. Ainda não mexemos no atributo numeroQuestao, e é isso que faremos agora.
+Dentro do método respostaBotaoPressionado, vamos colocar fora da condicional if (afinal, se a pessoa usuária errou a resposta também desejamos seguir para a próxima questão) a seguinte linha: "numeroQuestao += 1". Em seguida, chamamos o método configurarQuestao() novamente.
+
+QuestaoViewController
+// trecho de código suprimido
+
+    @IBAction func respostaBotaoPressionado(_ sender: UIButton) {
+        let usuarioAcertouResposta = questoes[numeroQuestao].respostaCorreta == sender.tag 
+
+    if usuarioAcertouResposta {
+        pontuacao += 1
+        print("O usuário acertou!")
+    }
+
+        numeroQuestao += 1
+        configurarQuestao()
+}
+
+// trecho de código suprimidoCOPIAR CÓDIGO
+Isso porque dentro do método configurarQuestao(), alteramos o texto da label e os títulos do botões. Vamos rodar o código como está para analisarmos.
+
+Após iniciar o quiz, na tela da primeira questão clicamos em "Expectro Patronum"; e somos redirecionados para a segunda pergunta com sucesso, alteramos o número da questão:
+
+Quando foi lançado o filme Avatar 2?
+2014
+2022
+2023
+Clicamos em "2022", a última pergunta seguinte será:
+
+Quando foi lançado o filme Vingadores Ultimato?
+2019
+2018
+2017
+Selecionamos "2019". Opa! Ocorreu um crash no aplicativo e somos redirecionados para o código. Observe que temos uma mensagem informando o erro:
+
+Thread: Fatal error: Index out of range
+Mas o que ocorreu? Vamos analisar o método respostaBotaoPressionado.
+
+QuestaoViewController
+// trecho de código suprimido
+
+    @IBAction func respostaBotaoPressionado(_ sender: UIButton) {
+        let usuarioAcertouResposta = questoes[numeroQuestao].respostaCorreta == sender.tag 
+
+    if usuarioAcertouResposta {
+        pontuacao += 1
+        print("O usuário acertou!")
+    }
+
+        numeroQuestao += 1
+        configurarQuestao()
+}
+
+// trecho de código suprimidoCOPIAR CÓDIGO
+O nosso numeroQuestao inicia com zero, mas quando estamos com o índex número dois, somamos um. Logo, o index vira três e isso não é possível por ir somente de zero até dois. Assim, acontece um erro no nosso aplicativo.
+
+Para arrumar isso, incluiremos uma verificação.
+
+Abaixo do usuarioAcertouResposta, colocaremos mais uma condicional if numeroQuestao for menor do que questoes (o nosso array), ponto count. Assim, ele contará os elementos desse array: if numeroQuestao < questoes.count {}.
+
+QuestaoViewController
+// trecho de código suprimido
+
+    @IBAction func respostaBotaoPressionado(_ sender: UIButton) {
+        let usuarioAcertouResposta = questoes[numeroQuestao].respostaCorreta == sender.tag 
+
+    if usuarioAcertouResposta {
+        pontuacao += 1
+        print("O usuário acertou!")
+    }
+
+        if numeroQuestao < questoes.count {
+
+        }
+
+        numeroQuestao += 1
+        configurarQuestao()
+}
+
+// trecho de código suprimidoCOPIAR CÓDIGO
+Logo após, copiamos as seguintes linhas:
+
+        numeroQuestao += 1
+        configurarQuestao()COPIAR CÓDIGO
+E colamos dentro do if numeroQuestao.
+
+QuestaoViewController
+// trecho de código suprimido
+
+    @IBAction func respostaBotaoPressionado(_ sender: UIButton) {
+        let usuarioAcertouResposta = questoes[numeroQuestao].respostaCorreta == sender.tag 
+
+    if usuarioAcertouResposta {
+        pontuacao += 1
+        print("O usuário acertou!")
+    }
+
+        if numeroQuestao < questoes.count {
+                numeroQuestao += 1
+                configurarQuestao()
+        }
+}
+
+// trecho de código suprimidoCOPIAR CÓDIGO
+O questoes.count é três, pois há três elementos no nosso array de questões. Porém, quando o numeroQuestao for dois (limite do array), ele confere "o número dois é menor do que três? Sim". Logo, ele entra na condicional e acrescenta um no numeroQuestao, resultando, assim, no número três. E isso não é possível!
+
+Por isso, na frente de questoes.count passamos o "-1".
+
+QuestaoViewController
+// trecho de código suprimido
+
+    @IBAction func respostaBotaoPressionado(_ sender: UIButton) {
+        let usuarioAcertouResposta = questoes[numeroQuestao].respostaCorreta == sender.tag 
+
+    if usuarioAcertouResposta {
+        pontuacao += 1
+        print("O usuário acertou!")
+    }
+
+        if numeroQuestao < questoes.count - 1 {
+                numeroQuestao += 1
+                configurarQuestao()
+        }
+}
+
+// trecho de código suprimidoCOPIAR CÓDIGO
+Vamos executar o código com "Command + R".
+
+No aplicativo, vamos clicar em "Iniciar Quiz > Expectro Patronum > 2022 > 2019". Perceba que não houve erro ao selecionarmos a última pergunta, não gerou um crash.
+
+Voltando ao XCode, precisamos alterar a cor de fundo do botão conforme o usuário acerta ou erra. Para isso, usaremos uma propriedade chamada de backgroundColor dentro da função usuarioAcertouResposta. Podemos remover a linha print("O usuário acertou!").
+
+Onde estava o print, escrevemos "sender.backgroundColor = UIColor". Usamos o UIColor para definirmos através do RGB (red, green, blue e alpha).
+
+Nesse momento, a instrutora volta ao Figma para ensinar como buscar pelo RGB da cor verde do botão. Para isso, basta selecionar o botão com a cor verde e do lado direito alterar de "Hex" para "RGB".
+Assim, o nosso código (sem o preenchimento das informações) ficará:
+
+QuestaoViewController
+// trecho de código suprimido
+
+        if usuarioAcertouResposta {
+            pontuacao += 1
+            sender.backgroundColor = UIColor(red: , green: , blue: , alpha: )
+        }
+
+// trecho de código suprimidoCOPIAR CÓDIGO
+Lembrando que o sender é o botão pressionado pelo usuário; a propriedade backgroundColor é o responsável por mudar a cor; e o UIColor é uma classe do UIKit para definirmos uma cor (dado que ela é customizada).
+
+Podemos inicializar a classe UIColor de diferentes formas, inclusive, usando o padrão RGB (red, green, blue e alpha, sendo esta e opacidade) que já estamos usando.
+
+O UIColor ao receber as cores (red, green e blue), ele recebe o valor de zero até um. E no sistema de cor o valor vai de zero até duzentos e cinquenta e cinco. Por isso, precisamos dividir o valor por 255.
+Voltando ao Figma e selecionando o botão verde "Expelliarmus", do lado direito clicamos na cor verde e trocamos de "Hex" para "RGB". Perceba que os valores são: 11, 161, 53 e 100%, respectivamente.
+
+No XCode, colocamos o número 11 em red, 161 no green e 53 no blue, e dividimos todos esses valores por 255.
+
+QuestaoViewController
+// trecho de código suprimido
+
+        if usuarioAcertouResposta {
+            pontuacao += 1
+            sender.backgroundColor = UIColor(red: 11/255, green: 161/255, blue: 53/255, alpha: 1.0)
+        }
+
+// trecho de código suprimidoCOPIAR CÓDIGO
+Com isso, temos a cor de fundo do botão caso a pessoa usuária acerte a pergunta. Agora, caso ela selecione a alternativa errada, inserimos um else e copiamos e colamos a linha com a cor que acabamos de inserir.
+
+Assim, ficará:
+
+QuestaoViewController
+// trecho de código suprimido
+
+        if usuarioAcertouResposta {
+            pontuacao += 1
+            sender.backgroundColor = UIColor(red: 11/255, green: 161/255, blue: 53/255, alpha: 1.0)
+        } else {
+                    sender.backgroundColor = UIColor(red: 11/255, green: 161/255, blue: 53/255, alpha: 1.0)
+
+                }
+// trecho de código suprimidoCOPIAR CÓDIGO
+Em seguida, voltamos ao Figma e clicamos no botão escrito "Avada Kedavra" preenchido na cor vermelha; e à direita clicamos na cor vermelha e trocamos de "Hex" para RBG. Obtemos os seguintes valores: 211, 17, 17 e 100%.
+
+No XCode, incluiremos essas informações no else para a cor vermelha:
+
+QuestaoViewController
+// trecho de código suprimido
+
+        if usuarioAcertouResposta {
+            pontuacao += 1
+            sender.backgroundColor = UIColor(red: 11/255, green: 161/255, blue: 53/255, alpha: 1.0)
+        } else {
+                    sender.backgroundColor = UIColor(red: 211/255, green: 17/255, blue: 17/255, alpha: 1.0)
+
+                }
+// trecho de código suprimidoCOPIAR CÓDIGO
+Temos as cores para caso a pessoa usuária acertar ou errar a questão.
+
+No aplicativo, vamos clicar em "Iniciar Quiz > Expectro Patronum > 2018". Perceba que está um pouco bugado, nós clicamos nas alternativas e ele simplesmente não deselecionar, o "2018" está na cor verde após clicarmos e o botão "2017" também, mas na cor vermelha.
+
+Isso acontece porque ele está armazenando a cor, não estamos trocando a cor de fundo do botão quando uma nova questão é carregada.
+
+Quando uma nova questão é exibida na tela, é necessário resetar todas as cores de fundo para não gerar esse bug. É isso que faremos agora.
+
+No XCode, no método configurarQuestao dentro do comando for precisamos alterar a cor de fundo para que volte para o roxo inicial. Para isso, usamos a mesma propriedade backgroundColor pegando o RGB.
+
+QuestaoViewController
+// trecho de código suprimido
+
+    func configurarQuestao() {
+        tituloQuestaoLabel.text = questoes[numeroQuestao].titulo
+        for botao in botoesResposta {
+                        botao.backgroundColor = UIColor(red: , green: , blue: , alpha: )
+            let tituloBotao = questoes[numeroQuestao].respostas[botao.tag]
+            botao.setTitle(tituloBotao, for: .normal)
+        }
+    }
+
+// trecho de código suprimidoCOPIAR CÓDIGO
+Agora, vamos ao Figma e selecionar algum botão para pegarmos o RGB da cor. Após isso, preenchemos no código:
+
+QuestaoViewController
+// trecho de código suprimido
+
+    func configurarQuestao() {
+        tituloQuestaoLabel.text = questoes[numeroQuestao].titulo
+        for botao in botoesResposta {
+            let tituloBotao = questoes[numeroQuestao].respostas[botao.tag]
+            botao.setTitle(tituloBotao, for: .normal)
+                        botao.backgroundColor = UIColor(red: 116/255, green: 50/255, blue: 255/255, alpha: 1.0)
+        }
+    }
+
+// trecho de código suprimidoCOPIAR CÓDIGO
+Logo após, executamos o código.
+
+No aplicativo, iniciamos o quiz e na primeira pergunta selecionamos "Expecto Patronum"; na segunda clicamos em "2022"; e na terceira pergunta selecionamos "2018". Observe que a cor de fundo do botão se aplicou somente na última questão.
+
+Obs: a instrutora cometeu um equívoco ao inserir o número "20" na respostaCorreta no arquivo Questoes (o número correto é zero) na pergunta "Quando foi lançado o filme Vingadores Ultimato?". Por isso, mesmo selecionando a questão correta "2019" o botão fica preenchido na cor vermelha.
+Isso acontece porque a troca de questões ocorre de maneira muito rápida. Assim, nem conseguimos visualizar essa troca, e isso é um problema.
+
+Agora, precisamos aplicar um timer para que a cor de fundo do botão fique por um determinado período bem curto, como cinco segundos. Para conseguirmos visualizar a cor de fundo e não passar instantaneamente.
+
+É isso que faremos no próximo vídeo. Te espero lá!
+
+@@05
+Colocando um timer entre questões
+
+Vamos ao arquivo QuestaoViewController e colocaremos esse timer sobre a função configurarQuestao. Isso porque vamos demorar em torno de 0.5 segundos para ir para a próxima questão, e para conseguirmos visualizar a cor de fundo.
+Chamamos a função configurarQuestao dentro do if da linha 28:
+
+QuestaoViewController
+// trecho de código suprimido
+
+if numeroQuestao < questoes.count -1 {
+        numeroQuestao += 1
+        configurarQuestao()
+    }
+}
+
+// trecho de código suprimidoCOPIAR CÓDIGO
+Nesse trecho do código, estamos verificando se podemos passar para a próxima questão; e então, chamamos o método configurarQuestao. Vamos pular uma linha após o numeroQuestao para acionarmos esse timer.
+
+O código que vou colocar aqui, pode parecer complexo. Porém, é assim que aplicamos para darmos um intervalo no nosso código, para setar um cronômetro. Para isso, usamos a classe Timer com o método estático (não estamos instanciando essa classe) chamado de scheduledTimer().
+
+QuestaoViewController
+// trecho de código suprimido
+
+if numeroQuestao < questoes.count -1 {
+        numeroQuestao += 1
+        Timer.scheduledTimer(timeInternal: TimeInternal, target: Any, selector: Selector, userInfo: Any?, repeats: Bool)
+        configurarQuestao()
+    }
+}
+
+// trecho de código suprimidoCOPIAR CÓDIGO
+O primeiro argumento que enviamos para essa função é otimeInternal, sendo a quantidade de segundos que desejamos que esse timer possua, no caso será 0.5 segundos. No target, escrevemos "self" pois estamos atuando na instância dessa classe mesmo; no selector, colocamos "#selector()" passando a função que chamaremos após o timer de 0.5 segundos, sendo a configurarQuestao.
+
+QuestaoViewController
+// trecho de código suprimido
+
+if numeroQuestao < questoes.count -1 {
+        numeroQuestao += 1
+        Timer.scheduledTimer(timeInternal: 0.5, target: self, selector: #selector(configurarQuestao), userInfo: Any?, repeats: Bool)
+        configurarQuestao()
+    }
+}
+
+// trecho de código suprimidoCOPIAR CÓDIGO
+Prosseguindo, no userInfo colocamos "nil" e o repeats vamos deixar como false, porque não desejamos que se repita o 0.5 segundos mais de uma vez. Podemos remover o configurarQuestao() da linha 31.
+
+QuestaoViewController
+// trecho de código suprimido
+
+if numeroQuestao < questoes.count -1 {
+        numeroQuestao += 1
+        Timer.scheduledTimer(timeInternal: 0.5, target: self, selector: #selector(configurarQuestao), userInfo: nil, repeats: false)
+        configurarQuestao()
+    }
+}
+
+// trecho de código suprimidoCOPIAR CÓDIGO
+Observe que do lado direito temos uma mensagem de erro, isso acontece porque o selector precisa que esse método configurarQuestao esteja definido no Object C. Isso é uma particularidade dos métodos que precisam usar esse selector.
+
+Clicando no botão "Fix" no canto inferior direito, observamos que na função configurarQuestao, foi adicionado um @objc. E isso é a única preocupação que precisamos ter ao usar o selector.
+
+QuestaoViewController
+// trecho de código suprimido
+
+    @objct func configurarQuestao() {
+        tituloQuestaoLabel.text = questoes[numeroQuestao].titulo
+        for botao in botoesResposta {
+            let tituloBotao = questoes[numeroQuestao].respostas[botao.tag]
+            botao.setTitle(tituloBotao, for: .normal)
+                        botao.backgroundColor = UIColor(red: 116/255, green: 50/255, blue: 255/255, alpha: 1.0)
+        }
+    }
+
+// trecho de código suprimidoCOPIAR CÓDIGO
+Agora, vamos executar o código e verificar se está funcionando conforme o esperado.
+
+Após iniciarmos o quiz, na tela da primeira pergunta clicamos em "Expelliarmus". Observe que o preenchimento na cor verde ao fundo do botão aparecerá por alguns segundos antes de pular para a próxima questão.
+
+Na segunda pergunta, selecionamos "2014" e também conseguimos visualizar o preenchimento na cor vermelha ao fundo do botão (significa que erramos essa resposta) e já passa para a próxima pergunta.
+
+Está funcionando conforme o esperado.
+
+Assim, estamos informando a pessoa usuária se ela errou ou acertou a pergunta, e o nosso próximo passo é construir a tela de desempenho.
+
+Até mais!
+
+@@06
+Construindo o modelo de dados e lidando com propriedades
+
+Aprendemos práticas importantes no desenvolvimento de um aplicativo iOS: tanto a criação de lógica do projeto com a modelagem de dados quanto alguns aspectos de customização de elementos.
+Pensando nisso, assinale as práticas corretas que utilizamos:
+
+Criamos um temporizador que define um tempo entre as questões, pois a troca acontecia de forma tão rápida que não conseguíamos observar a cor de fundo do botão sendo alterada.
+Esse temporizador chama a função configurarQuestao, que precisamos definir com um @objc antes da palavra func.
  
+Isso mesmo! Criamos um timer de 0.5 segundos entre as questões. A função configurarQuestao precisa ser definida com a palavra-chave @objc. Por que precisamos colocar esse @objc? Por que o temporizador é um método que possui o selector, cuja sintaxe pede a palavra-chave @objc na definição da função. O @objc é um atributo em Swift que indica que uma função ou propriedade está disponível para ser chamada ou acessada a partir do Objective-C, uma linguagem anterior ao Swift, que era muito utilizada para construir aplicativos iOS.
+Alternativa correta
+Criamos a estrutura da questão com o uso de uma struct, mas poderíamos também criá-la com o uso de uma classe, pois classes e structs possuem funcionalidades similares.
+ 
+Isso aí! Classes e structs são utilizados para representar objetos da vida real em código, em um contexto de orientação a objetos. Utilizamos uma struct para criar o modelo de questão por ser mais simples, mas poderíamos, sem problemas, utilizar uma classe.
+Alternativa correta
+Na função respostaBotaoPressionado do nosso código, recebemos o botão pressionado pelo usuário. Para identificar qual o botão que foi pressionado e verificar a resposta, podemos utilizar de uma propriedade chamada id, que retorna o id de um botão.
+ 
+Alternativa correta
+Para alterar a cor de fundo do botão, utilizamos a propriedade backgroundColor **e atribuímos a uma instância do tipo CGColor.
+ 
+Parabéns, você acertou!
+
+@@07
+Faça como eu fiz: desenvolvendo a lógica da aplicação
+
+Agora é a sua vez! Chegou a hora de você seguir todos os passos realizados por mim durante esta aula. Portanto:
+Crie o modelo das questões com uma struct;
+Defina um array de questões (pode escolher sua própria temática);
+Faça uma condição para verificar a resposta da questão;
+Altere a cor de fundo do botão de acordo com a resposta do usuário (se ela estiver correta, deve ser verde, se não, deve ser vermelho);
+Adicione um timer entre as questões.
+Caso já tenha feito esses passos, excelente. Se ainda não, é importante que você execute o que foi visto nos vídeos para poder continuar com a próxima aula.
+
+O ideal é que você tente replicar os passos por conta própria para validar seu aprendizado. Porém, caso tenha dificuldade, fique à vontade para dar uma olhadinha nos vídeos!
+Vamos lá?
+
+Opinião do instrutor
+
+O objetivo desta atividade é estimular a prática necessária para seu aprendizado!
+Você pode conferir o código do projeto até o momento através desta branch no GitHub.
+
+Se precisar de ajuda, chama a gente no fórum ou discord!
+
+https://github.com/alura-cursos/ios-construindo-seu-primeiro-aplicativo/tree/aula-04
+
+@@08
+O que aprendemos?
+
+Nessa aula, você aprendeu como:
+Criar structs para definir o modelo dos nossos dados, ou seja, a base das questões do quiz;
+Utilizar da propriedade tag para identificar o botão que foi pressionado;
+Alterar propriedades (como a cor) de um elemento de forma programática;
+Criar um temporizador para adicionar um intervalo de tempo de 0.5 segundos entre as questões.
+Já avançamos bastante e nosso aplicativo está ficando excelente.
+
+Vejo você na última aula!
