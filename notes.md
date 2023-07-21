@@ -2325,3 +2325,646 @@ Criar um temporizador para adicionar um intervalo de tempo de 0.5 segundos entre
 Já avançamos bastante e nosso aplicativo está ficando excelente.
 
 Vejo você na última aula!
+
+#### 21/07/2023
+
+@05-Construindo a tela de desempenho
+
+@@01
+Projeto da aula anterior
+
+Você pode acompanhar o passo a passo do desenvolvimento do nosso projeto no Github e, caso deseje, pode baixar o projeto da aula anterior.
+Bons estudos!
+
+https://github.com/alura-cursos/ios-construindo-seu-primeiro-aplicativo/tree/aula-04
+
+https://github.com/alura-cursos/swift-entendendo-a-linguagem/archive/refs/heads/aula-04.zip
+
+02
+Construindo a tela de desempenho
+
+Se você observar a tela do Figma, notará que falta apenas uma tela para concluirmos a construção do nosso aplicativo: a tela de desempenho.
+tela de desempenho do aplicativo. sobre um fundo azul arroxeado, os seguintes textos em branco centralizados, de cima para baixo, nessa ordem: "Você finalizou o iQuiz!" em letras grandes; "Você acertou 2 de 10 questões." em letras médias; "Percentual final: 20%" em letras pequenas. abaixo do último texto, um botão num tom de roxo mais claro com os seguintes dizeres em branco: "Reiniciar Quiz".
+
+Ela possui:
+
+Um título: "Você finalizou o iQuiz!";
+Um texto mostrando o número de acertos da pessoa usuária em relação ao total de questões;
+Um texto mostrando o percentual final de acertos, para o qual precisaremos realizar um cálculo;
+Um botão para reiniciar o quiz, que leva para a página inicial.
+Agora precisamos construir, de fato, essa tela. Faremos isso no Xcode, e o processo será bastante parecido com o da tela de questão.
+
+DesempenhoViewController
+O primeiro passo, então, é construir o arquivo da View Controller. Para isso, no menu de arquivos à esquerda da tela, clicamos com o botão direito em "iQuiz" e, no menu de opções, clicamos em "New File".
+
+Na janela que surge no centro da tela, selecionamos "Cocoa Touch Class" e clicamos em "Next". A classe já está definida como subclasse de "UIViewController", e a nomearemos como "DesempenhoViewController". Clicamos em "Next" novamente e salvamos o arquivo na pasta do projeto, "iQuiz", e clicamos em "Create".
+
+Nova tela no StoryBoard
+Com o arquivo criado, o próximo passo é colocar uma nova tela (ViewController) no arquivo Main, do StoryBoard. Clicamos nele, no menu lateral esquerdo.
+
+Vamos diminuir o zoom da visualização das telas para relembrar o fluxo. Temos a NavigationController, que gere todas as questões de navegação da nossa aplicação, temos a tela inicial, a tela de questão e, agora, precisamos criar a de desempenho.
+
+Clicamos no ícone de "+" no canto direito da barra superior da tela para abrir a biblioteca de objetos. Nessa janela, procuramos por "View Controller" na barra de pesquisa, clicando e arrastando a primeira opção para o StoryBoard, posicionando a nova tela ao fim.
+
+Agora, precisamos realizar a conexão dessa tela com o arquivo que criamos, DesempenhoViewController. Para isso, clicamos no botão "View Controller", logo acima da nova tela do StoryBoard.
+
+Depois, no menu de inspetores na lateral direita da tela, clicamos no quarto botão da barra superior para exibir os inspetores de identificação. No atributo Class, escrevemos "DesempenhoViewController" e pressionamos "Enter".
+
+Agora, o nosso código DesempenhoViewController já está atrelado à ViewController do StoryBoard!
+
+Layout da tela
+Vamos começar a construir essa tela, adicionando seus elementos.
+
+Cor de fundo
+Primeiramente vamos alterar a cor de fundo, clicando no inspetor de atributos na lateral direita da tela.
+
+Para replicar cor de fundo da tela de questão, a selecionamos e, no inspetor, clicamos em "Background > Custom" e, na parte inferior da tela, na janela Colors, copiamos o código hexadecimal da cor: "521EC2". Depois, repetimos o caminho com a nova tela selecionada e colamos o código no campo "Hex Color #" da janela Colors, selecionando a opção "RGB sliders".
+
+Texto 1
+Agora, vamos adicionar elementos clicando no "+" na barra superior da tela. O primeiro elemento que adicionaremos na tela é uma Label, então arrastamos essa opção da biblioteca de objetos até a tela de desempenho. Nela, vamos escrever:
+
+Você finalizou o iQuiz!
+Agora, no inspetor de atributos, mudamos a cor da fonte para branco, clicando em "Color > White Color". Vamos também aumentar o tamanho da fonte, clicando em "Font" e escrevendo "32" no campo "Size". Podemos mudar o estilo também, clicando em "Style > Semibold". Ao terminar, clicamos em "Done" e centralizamos o texto na tela.
+
+Texto 2
+Vamos copiar e colar o texto que criamos abaixo do original, para escrever outra frase e manter as configurações. A frase será:
+
+Você acertou 2 de 10 questões.
+Note que esse texto é extremamente estático. Nós ainda faremos com que ele entre em conformidade com a quantidade de questões que a pessoa usuária acertou e a quantidade de questões do aplicativo. Ou seja, tornaremos esse texto dinâmico mais adiante.
+
+Vamos deixar o texto desalinhado e cortado na tela por enquanto, porque depois mexeremos com constraints para alinhar tudo.
+
+Texto 3
+Vamos copiar e colar o texto novamente. Nesse terceiro texto, escreveremos:
+
+Percentual final: 20%
+Se você observar a tela no Figma, esse texto possui uma fonte um pouco menor. Então, podemos mudar o tamanho de 32 para 26, no campo "Font > Size" no inspetor de atributos.
+
+Botão
+Para adicionar o botão, clicamos novamente no "+" na barra superior da tela e, na biblioteca de objetos, clicamos e arrastamos Button para a tela de desempenho.
+
+Para trocar o texto do botão, clicamos nele e escrevemos:
+
+Reiniciar Quiz
+Vamos trocar a cor do texto, de azul para branco, no atributo "Tint". Também vamos mudar a fonte para System, estilo Regular e tamanho 22.
+
+Por fim, vamos trocar a cor de fundo do botão, que copiaremos dos botões da tela de resposta: 7432FF. Clicamos novamente no botão de reiniciar o quiz e colamos o código hexadecimal em "Background > Custom > RGB sliders".
+
+Constraints
+Agora que temos os elementos, precisamos definir as constraints.
+
+A primeira constraint que vamos definir é a do primeiro texto. Então o selecionamos e abrimos o menu de constraints, clicando no terceiro ícone do canto inferior direito da StoryBoard.
+
+Vamos configurar uma constraint de 112 do topo, 64 da lateral esquerda e 64 da lateral direita. Então, clicamos em "Add 3 constraints".
+
+Podemos observar que o texto inicial ficou com reticências, omitindo parte da frase. Podemos alterar isso no painel de atributos, procurando por "Lines", alterando o número de 1 para 0.
+
+Realizamos esse mesmo comportamento, mas de forma programática, na QuestaoViewController. Pegamos o tituloQuestaoLabel, setando o número de linhas igual a zero, com a propriedade numberOfLines:
+
+tituloQuestaoLabel.numberOfLines = 0COPIAR CÓDIGO
+Ou seja, quando estamos no StoryBoard, podemos modificar todos esses atributos do painel de atributos de forma programática.
+
+Para esse texto, também vamos alinhar o texto ao centro, clicando em "Alignment > Center".
+
+Vamos repetir todas essas configurações para o segundo texto, configurando constraints de 72 para o topo, em relação ao elemento de cima, e 64 para cada lateral. Novamente mudamos o número de linhas para 0** e alinhamento do texto para **centralizado. O terceiro texto terá as mesmas constraints.
+
+Por fim, o botão de reiniciar quiz terá as mesmas constraints dos dois últimos textos, e ativaremos a constraint de altura ("Height"), com o valor de 62.
+
+Temos todas as constraints finalizadas!
+
+Agora precisamos navegar para essa tela, porque ela ainda não é apresentada na nossa aplicação. Então, quando a pessoa usuária finaliza o quiz, ela precisa ser levada para essa tela.
+
+Resolveremos isso no próximo vídeo!
+
+@@03
+Conectando os elementos do Storyboard
+
+Antes de começar a trabalhar com a navegação de fato, vamos conectar os elementos do StoryBoard com o código da DesempenhoViewController.
+Não conectaremos o primeiro elemento, a label de "Você finalizou o iQuiz", por ser estático. Ou seja, ele não será alterado. Já o segundo elemento, a label "Você acertou 2 de 10 questões", precisa ser dinâmico - então, o conectaremos ao código.
+
+Não temos 10 questões na nossa aplicação, afinal de contas, podemos ter quantas questões quisermos apenas modificando o array de questões.
+
+Então, com o arquivo DesempenhoViewController aberto no Xcode e a segunda label da tela de desempenho selecionada, pressionamos a tecla "Ctrl" e arrastamos e arrastamos o elemento para o código.
+
+Vamos conectar esse elemento como um Outlet para referenciar apenas o elemento e nomeá-lo como "resultadoLabel". No código, surgirá o seguinte:
+
+DesempenhoViewController
+@IBOutlet weak var resultadoLabel: UILabel!COPIAR CÓDIGO
+Vamos pular duas linhas abaixo dessa linha de código, para ter espaço para conectar o outro elemento.
+
+Repetiremos o processo para conectar o elemento com o texto "Percentual final", porque ele também será alterado. Então o selecionamos, pressionamos "Ctrl" e o arrastamos para o código. Ele também será um Outlet, e o nomearemos como "percentualLabel". No código, acrescenta-se:
+
+@IBOutlet weak var resultadoLabel: UILabel!
+@IBOutlet weak var percentualLabel: UILabel!COPIAR CÓDIGO
+O último elemento, o botão de "Reiniciar Quiz", conectaremos como Outlet também porque precisamos arredondar os cantos das bordas. Então, novamente, pressionamos "Ctrl" e arrastamos esse elemento para o código. O nomearemos como "botaoReiniciarQuiz". O código atualizado:
+
+@IBOutlet weak var resultadoLabel: UILabel!
+@IBOutlet weak var percentualLabel: UILabel!
+@IBOutlet weak var botaoReiniciarQuiz: UIButton!COPIAR CÓDIGO
+Em seguida, criaremos um método chamado configurarLayout, assim como fizemos para as outras telas. Nesse método, arredondaremos as bordas do botão: botaoReiniciarQuiz.layer.cornerRadius = 12.0:
+
+    func configurarLayout() {
+        navigationItem.hidesBackButton = true
+        botaoReiniciarQuiz.layer.cornerRadius = 12.0COPIAR CÓDIGO
+Também precisamos lembrar de chamar esse método na viewDidLoad, quando a View será carregada:
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        configurarLayout()COPIAR CÓDIGO
+Também precisamos adicionar uma ação para esse botão. Mas não faremos isso por meio do código.
+
+Você deve se lembrar que, na primeira tela, simplesmente pressionamos o "Ctrl" no botão de "Iniciar Quiz" e arrastamos para a segunda tela. Faremos o mesmo com o botão de "Reiniciar Quiz", porque quando pressionarmos esse botão, queremos retornar à tela inicial.
+
+Então, clicamos no botão "Reiniciar Quiz", pressionamos "Ctrl" e arrastamos para a primeira tela. Na caixa de opções exibida, selecionamos "Show".
+
+Nesse momento, você poderá perceber que foi criado um fluxo entre a tela de desempenho e a tela inicial, ligadas por uma linha que atravessa o StoryBoard.
+
+Isso é o interessante do StoryBoard: conseguir mostrar todo o fluxo de navegação entre as telas.
+Agora, quando pressionarmos o botão para reiniciar o quiz, a aplicação voltará ao início do fluxo, para a primeira tela.
+
+Não executaremos esse código no momento porque não conseguiremos observar nenhuma modificação. Isso porque não estamos chamando, de fato, a tela de desempenho.
+
+Precisamos chamá-la de maneira um pouco diferente, porque não temos nenhum botão concreto que podemos simplesmente ligar no StoryBoard. Dessa forma, precisamos realizar uma verificação de quando o usuário chegar ao final do quiz (ou seja, na última pergunta) para, então, chamar a tela de desempenho.
+
+Além disso, também precisamos passar parâmetros. Porque, na tela de desempenho, precisamos do número de acertos da pessoa usuária. Quem armazena essa pontuação é a QuestaoViewController, no atributo pontuacao, inicializado com zero: var pontuacao = 0.
+
+Quando fazemos o if usuarioAcertouResposta na linha 21, nós acrescentamos a pontuação em um:
+
+QuestaoViewController
+        if usuarioAcertouResposta {
+            pontuacao += 1
+// código omitidoCOPIAR CÓDIGO
+Precisamos passar essa variável para a tela de desempenho. Então, agora, a navegação precisa funcionar com parâmetros. Realizamos esse tipo de navegação por código.
+
+É isso que faremos no próximo vídeo. Nos encontramos lá!
+
+@@04
+Implementando navegação com parâmetros
+
+Vamos trabalhar com a navegação, que, relembrando, precisa ter passagem de parâmetros, ou seja, que precisamos passar algum valor de uma tela para outra. No caso da nossa aplicação, precisamos passar a pontuação da pessoa usuária da tela de questão para tela de desempenho.
+A primeira coisa que precisamos fazer é criar uma conexão entre a tela de questão e a tela de desempenho, e faremos isso através do storyboard. Clicaremos na view controller logo acima da tela de questão, pressionaremos "Ctrl" e arrastaremos para tela de desempenho. Quando soltamos, aparece o menu flutuante que já conhecemos, onde escolheremos "Show".
+
+Feito isso, aparece uma seta de uma tela para outra, criando a conexão. Essa seta precisa ter um identificador, porque, quando formos para o código e chamarmos essa navegação, identificaremos a navegação pelo nome dessa conexão.
+
+Se formos ao painel de inspetores e clicarmos no quinto ícone da parte superior, que é uma lista de sliders, abriremos o painel de inspetores de atributo. Nele temos um atributo chamado "Identifier" (Identificador), onde podemos adicionar um nome. No caso, chamaremos de "irParaTelaDesempenho". Agora esse é o nome do identificador dessa conexão.
+
+Feito isso, lembrem-se que passaremos o atributo pontuacao para tela de desempenho, então clicaremos na DesempenhoViewController para abrir o código e criaremos o atributo chamado pontuação, escrevendo var pontuacao na linha 12. Nós não iremos inicializar esse atributo, porque se inicializarmos, por exemplo, como zero (0) , não fará sentido, já que estamos passando o atributo da tela de questão para tela de desempenho.
+
+Sendo assim, como não iremos inicializar o atributo, precisamos declarar o tipo dele explicitamente, ou seja, var pontuacao: Int. Se deixarmos apenas dessa maneira, ele irá pedir para criarmos um inicializador, e não queremos criar um inicializador para isso.
+
+O que queremos é, na tela de questão, chamar o atributo do DesempenhoViewController. Portanto faremos com que o atributo pontuacao seja uma opcional, colocando um ponto de interrogação após declararmos o tipo (Int?).
+
+Assim não precisaremos criar um inicializador, pois não iremos instanciar a classe DesempenhoViewController. Nós iremos apenas acessar o atributo pontuacao na tela de questão, e em breve vocês entenderão isto na prática e conseguirão visualizar melhor o que estou explicando. No momento, criar o atributo var pontuacao: Int? já é mais que o suficiente.
+
+Agora voltaremos para o código QuestaoViewController, clicando na segunda tela. Desceremos o código até acharmos a verificação o if numeroQuestao, a partir da linha 28, que verifica se a pessoa pode ir para próxima pergunta ou não, a fim de não estourar nosso array.
+
+Para sabermos se a pessoa usuária chegou na última pergunta, precisamos escrever, ao final do escopo do if{}, na linha 31, um else{}, representando que a pessoa usuária está na última pergunta. E para separar melhor o código, e vocês conseguirem entender melhor, criaremos um método acima do viewDidLoad, na linha 37, escrevendo func navegaParaTelaDesempenho(){}. Depois chamaremos esse método dentro do else.
+
+//código omitido
+
+        if numeroQuestao < questoes.count - 1 {
+            numeroQuestao += 1
+            Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(configurarQuestao), userInfo: nil, repeats: false)
+        } else {
+            navegaParaTelaDesempenho()
+        }
+    }
+
+    func navegaParaTelaDesempenho() {
+
+    }COPIAR CÓDIGO
+Quando criamos a classe QuestaoViewController, se formos até o final do código, notamos que o XCode nos deixou um comentário, que diz:
+
+"Em uma aplicação baseada no storyboard, você pode querer fazer uma preparação antes da navegação".
+Ele inclusive passa o método que precisamos utilizar, porque ele é muito comum, apesar de parecer confuso:
+
+override func prepare(for segue: UIStroryboardSegue, sender: Any?) {
+    //Get the new view controller using segue.destinaton.
+    //Pass the selected object to the new view controller
+}COPIAR CÓDIGO
+Nesse método ele fala que precisamos "Pegar a nova view controller que está sendo chamada usando o segue.destination", sendo o destination um atributo do segue, recebido como parâmetro. Depois ele fala que podemos "Passar o objeto selecionado", que no nosso caso é o atributo pontuacao, "para nova view controller".
+
+Vamos reescrever esse método seguindo as orientações do comentário. Então na linha 65, onde fechamos o método configurarQuestao, pressionaremos "Enter" duas vezes. Depois, na linha 67, escreveremos prepare e selecionaremos a primeira sugestão do XCode, pressionando "Enter". Com isso, o método prepare será montado.
+
+override func prepare(for segue: UIStroryboardSegue, sender: Any?) {
+    code
+}COPIAR CÓDIGO
+Esse método é um override, usado quando estamos reescrevendo um método da classe pai, que neste caso é a UIViewController, da qual estamos herdando. Porém, o que essa classe faz afinal?
+
+A UIViewController é uma classe do framework UIKit, que estamos utilizando. Ela fornece todas as funcionalidades básicas para trabalharmos com telas no iOS. Basicamente, ela faz a estrutura, gerencia o conteúdo, obtém as interações das pessoas usuárias e utiliza métodos para trabalharmos com a navegação entre telas.
+
+Sendo assim, a UIViewController é a classe responsável por gerenciar uma tela da nossa aplicação, por isso sempre precisamos herdar dessa classe. E dentro do método prepare, como orienta o comentário, precisamos verificar se a nova view controller, usando o segue.destination é a nossa classe.
+
+Para fazermos isso, usaremos o operador Type Casting, escrevendo guard let desempenhoVC = segue.destination as? DesempenhoViewController else { return }. O guard let o método que utilizamos para desembrulhar uma opcional, pois ao falarmos do Type Casting, utilizamos opcionais.
+
+O VC em desempenhoVC é de View Controller, enquanto o as é o operador de Type Casting. Com esse código verificamos se a tela de destino é a DesempenhoViewController. Por fim, adicionamos um else { return } porque o guard let tem o else e, caso a tela não seja desejada, ele sairá desse método sem fazer nada.
+
+Dessa forma, conseguimos acessar todos os métodos e atributos da classe desempenhoVC, porque estamos utilizando o Type Casting para verificar se é desse tipo. Inclusive podemos acessar o atributo de pontuação, escrevendo desempenhoVC.pontuacao, e atribuir a pontuacao da nossa classe QuestaoViewController, declarado na linha 12. Para isso escrevemos desempenhoVC.pontuacao = pontuacao.
+
+//código omitido
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let desempenhoVC = segue.destination as? DesempenhoViewController else { return }
+        desempenhoVC.pontuacao = pontuacao
+    }COPIAR CÓDIGO
+Com o desempenhoVC.pontuacao = pontuacao estamos criando uma passagem de parâmetros entre telas. É importante mencionar que o método prepare é chamado automaticamente antes de uma segue ser executada, sendo a segue uma transição entre telas. Então quando criamos essa conexão entre a tela de questão e a de desempenho, criamos uma segue.
+
+Agora o que precisamos fazer é voltar para QuestaoViewController, clicando na barra acima da segunda tela. Feito isso, desceremos para linha 37, onde temos a função navegaParaTelaDesempenho.
+
+Precisamos chamar a navegação para função navegaParaTelaDesempenho. E a primeira coisa que faremos para isso será chamar a performSegue, que selecionando a primeira opção que o XCode sugere para chamarmos a estrutura. Ela performa essa segue, ou seja, realiza essa transição.
+
+performSegue(withIdentifier: String, sender: Any?)COPIAR CÓDIGO
+No withIdentifier precisamos adicionar o identificador, que nomeamos anteriormente como "irParaTelaDesempenho". Então escreveremos withIdentifier: "irParaTelaDesempenho", lembrando de escrever exatamente igual ao declarado, porque se tiver algum erro ortográfico, não irá funcionar. No sender, escreveremos sender: nil, porque não precisamos nos preocupar com isso no momento.
+
+    func navegaParaTelaDesempenho() {
+        performSegue(withIdentifier: "irParaTelaDesempenho", sender: nil)
+    }COPIAR CÓDIGO
+Pressionando "Command + R", executaremos o código para descobrir se conseguimos fazer a transição funcionar. Na tela inicial, clicamos em "Iniciar Quiz" e depois pressionamos uma das alternativas em cada tela para avançarmos. Quando as questões terminam, chegamos à tela final, onde mostramos a mensagem que programamos.
+
+Emulador do Iphone 14. Ele está exibindo a tela final do iQuiz. O fundo da tela é roxo e sobre ele há três blocos de texto em letras brancas. O primeiro bloco está em negrito e diz "Você finalizou o iQuiz!", o segundo, logo abaixo, também está em negrito e diz "Você acertou 2 de 10 questões" e o terceiro, em letras sem negrito e diz "Percentual final: 20%". Após esse último texto tem um botão lilás com o texto "Reiniciar Quiz" em letras brancas.
+
+Lembrando que a parte "Você acertou 2 de 10 questões" ainda está estática, e logo iremos resolver isso. Quando clicamos no botão "Reiniciar Quiz", na parte inferior da tela, voltamos para tela inicial. Também iremos arrumar os botões de voltar, na parte superior esquerda da tela.
+
+Espero que tenham entendido e aguardo vocês no próximo conteúdo.
+
+@@05
+UIViewController
+
+Imagine que você irá criar uma nova funcionalidade na sua aplicação que irá permitir ao usuário realizar um login. Para isso, você irá precisar criar uma nova tela, chamada de LoginViewController.
+Como seria a estrutura base do código?
+
+import UIKit
+
+class LoginViewController {
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        // Do any additional setup after loading the view.
+    }
+}
+ 
+Alternativa correta
+import UIKit
+
+class LoginViewController: UIViewController {
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        // Do any additional setup after loading the view.
+    }
+}
+ 
+É isso mesmo! Essa é a estrutura base para criar uma nova view controller. Primeiramente, importamos o framework UIKit. E então, criamos a nossa classe chamada de LoginViewController que herda de UIViewController. O método viewDidLoad() está sendo sobrescrito pela nossa classe. Ele será disparado assim que a nossa tela for carregada na aplicação.
+Alternativa correta
+import Foundation
+
+class LoginViewController: UIViewController {
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        // Do any additional setup after loading the view.
+    }
+}
+ 
+Alternativa correta
+import UIKit
+
+struct LoginViewController: UIViewController {
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        // Do any additional setup after loading the view.
+    }
+}
+ 
+Alternativa correta
+import UIKit
+
+class LoginViewController: UIViewController {
+
+    func viewDidLoad() {
+        super.viewDidLoad()
+
+        // Do any additional setup after loading the view.
+    }
+}
+
+@@06
+Navegação entre telas e passagem de parâmetros
+
+Para realizar a navegação com parâmetros entre as telas corretamente e preparar a tela de destino (DesempenhoViewController) para exibição, é preciso escrever a função prepare.
+Assim, de acordo com o que aprendemos em aula, qual ou quais código(s) abaixo, indica(m) a escrita correta dessa função?
+
+override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    guard let desempenhoVC = segue.destination as? DesempenhoViewController else { return }
+    desempenhoVC.pontuacao = pontuacao
+}
+ 
+É isso aí! O método acima utiliza do guard let para desembrulhar uma opcional e faz com que haja a preparação da tela DesempenhoViewController antes de ser chamada, passando os parâmetros necessários.
+Alternativa correta
+func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    guard let desempenhoVC = segue.destination as? DesempenhoViewController else { return }
+    desempenhoVC.pontuacao = pontuacao
+}
+ 
+Alternativa correta
+override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    if let desempenhoVC = segue.destination as? DesempenhoViewController {
+            desempenhoVC.pontuacao = pontuacao
+        }
+}
+ 
+Isso mesmo! O método acima utiliza do if let para desembrulhar uma opcional e faz com que haja a preparação da tela DesempenhoViewController antes de ser chamada, passando os parâmetros necessários.
+Alternativa correta
+override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let desempenhoVC = segue.destination as! DesempenhoViewController
+    desempenhoVC.pontuacao = pontuacao
+}
+
+@@07
+Mostrando o desempenho e organizando o código
+
+Vamos começar resolvendo o problema do botão de voltar que não queremos que apareça. Sendo assim, voltaremos para o código, onde esconderemos o botão na primeira tela, a ViewController, quanto na última tela, a DesempenhoViewController.
+Observação: A primeira tela, que chamamos de ViewController, poderia ter outro nome, como HomeViewController ou TelaInicialViewController.
+Abrindo o arquivo "ViewController", acessaremos o método configuraLayout na linha 22. Após a abertura de chaves, pressionaremos "Enter" e, na linha 23, escreveremos navigation.hideBackButton = true.
+
+    func configuraLayout() {
+        navigationItem.hidesBackButton = true
+        botaoIniciarQuiz.layer.cornerRadius = 12.0
+    }COPIAR CÓDIGO
+Abrindo o menu lateral, clicaremos em "DesempenhoViewController" e faremos a mesma alteração no método configuraLayout, que está na linha 26. Agora executaremos o código, com "Command + R", iniciaremos o quiz, responderemos algumas perguntas e, com isso, percebemos que não tem mais o botão de voltar.
+
+Isso porque não faz sentido poder voltar para o Quiz, da mesma forma que, ao clicarmos no botão "Reiniciar Quiz", não temos mais o botão de voltar na tela inicial. Agora voltaremos para o XCode para trabalhar nos textos da tela de desempenho, tornando-os dinâmicos.
+
+No "DesempenhoViewController", após o fechamento de chaves do configurarLayout, na linha 29, pressionaremos "Enter" duas vezes e criaremos um novo método, escrevendo func configurarDesempenho, para configurarmos todos os textos. Depois, dentro do viewDidLoad(), chamaremos esse método na linha 24, após o configurarLayout.
+
+//código omitido
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        configurarLayout()
+        configurarDesempenho()
+        // Do any additional setup after loading the view.
+    }
+
+//código omitido
+
+    func configurarDesempenho() {
+
+    }COPIAR CÓDIGO
+Lembrem-se que nosso atributo pontuacao é uma opcional, então precisamos "desembrulhar" essa opcional, usando o guard let dentro de configurarDesempenho. Portanto escreveremos guard let pontuacao = pontuacao else { return }. Com isso temos uma variável local chamada pontuacao que não é opcional, ou seja, está "desembrulhada".
+
+//código omitido
+    func configurarDesempenho() {
+        guard let pontuacao = pontuacao else { return }
+    }COPIAR CÓDIGO
+Começaremos alterando o texto resultadoLabel, escrevendo resultadoLabel.text = "Você acertou \(pontuacao) de \(questoes.count) questões". Usamos aspas duplas por se tratar de um texto em string. Além disso, usamos a interpolação para inserir as variáveis em um texto, sendo elas, \(pontuacao) e \(questoes.count).
+
+A \(pontuacao) é o número de questões acertadas e a \(questoes.count) representa o total de questões. Lembrando que questoes é a array que declaramos no modelo "Questao", mas mesmo estando em outro arquivo, podemos usar em todo nosso código. Por outro lado o .count conta todos os elementos que a array possui. Com isso temos um texto parecido com "Você acertou 2 de 10 questões".
+
+Para o percentual precisamos fazer um cálculo, mas antes disso, executaremos o código que já temos para saber se tudo está funcionando da maneira esperada. Com isso voltaremos ao emulador, pressionamos "Iniciar Quiz" e responderemos as questões.
+
+Na tela de finalização, após eu ter acertado duas questões, apareceu "Você acertou 2 de 3 questões", com mostrando o total de 3 questões. Portanto o texto já está dinâmico e funcionando de acordo com as questões do array e com o número de acertos da pessoa usuária.
+
+Agora vamos calcular o percentual final. Para isso, voltaremos para configurarDesempenho e, na linha abaixo do resultadoLabel.text, escreveremos let percentual.
+
+Precisamos realizar um pouco de cálculo, e sabemos que o percentual vai de 0% a 100%, sendo 0% o mínimo e 100% o máximo. Então nosso cálculo pode ser (pontuacao * 100) / questoes.count. Com isso temos nosso percentual.
+
+    func configurarDesempenho() {
+        guard let pontuacao = pontuacao else { return }
+        resultadoLabel.text = "Você acertou \(pontuacao) de \(questoes.count) questões"
+        let percentual = (pontuacao * 100) / questoes.count
+    }COPIAR CÓDIGO
+Explicando um pouco a matemática, suponhamos que acertamos duas questões, ou seja, a pontuação é 2, e 2 vezes 100 é 200. Imaginem que o número total de questões é 10, então o questoes.count será 10. Então 200 dividido por 10 é igual a 20, ou seja, 20% das questões.
+
+Agora podemos configurar o texto para ser percentualLabel.text = "Percentual final: \(percentual)%". Assim chamamos o texto de percentual, colocamos o valor da variável percentual e o sinal "%".
+
+    func configurarDesempenho() {
+        guard let pontuacao = pontuacao else { return }
+        resultadoLabel.text = "Você acertou \(pontuacao) de \(questoes.count) questões"
+        let percentual = (pontuacao * 100) / questoes.count
+        percentualLabel.text = "Percentual final: \(percentual)%"
+    }COPIAR CÓDIGO
+Executando o código mais uma vez, voltaremos para o emulador. Clicando no "Iniciar Quiz", podemos responder a todas as questões de forma errada e, ao chegarmos na última tela, temos as mensagens "Você acertou 0 de 3 questões" e "Percentual final: 0%".
+
+Com isso, temos o iQuiz finalmente finalizado. Falta apenas organizarmos melhor os arquivos no XCode, porque temos nosso arquivo de modelo de questões, assim como o as view controllers todas bagunçadas na nossa estrutura de arquivos.
+
+Sendo assim, clicaremos com o botão direito do mouse sobre a pasta do iQuiz e, no menu flutuante, selecionaremos "New Group" (Novo Grupo). Nomearemos esse novo grupo como "ViewController", depois arrastaremos todas as view controllers para dentro dessa pasta: a "ViewController", a "DesempenhoViewController" e a "QuestaoViewController".
+
+Clicaremos novamente na pasta "iQuiz" com o botão direito e, mais uma vez, selecionaremos "New Group". Dessa vez nomearemos a pasta como "Modelo" e arrastaremos o arquivo "Questao" para lá.
+
+Nessa aplicação, o "Questao" será o único arquivo na pasta "Modelo", mas em uma aplicação maior, com mais funcionalidades, provavelmente terão vários arquivos de modelo. Sendo assim, precisamos criar essa pasta para organizarmos nosso código de maneira eficiente. Organização de código e código limpo são boas práticas que sempre devemos seguir no projeto.
+
+Finalizamos oficialmente nosso primeiro aplicativo iOS.
+
+Vejo vocês no próximo vídeo.
+
+@@08
+Para saber mais: boa prática com uso de extensões
+
+Quando falamos sobre extensões na linguagem Swift, aprendemos que podíamos utilizá-la no nosso código para uma melhor organização, correto?
+No nosso arquivo QuestaoViewController.swift, nós alteramos a cor de fundo do botão para verde, caso o usuário acerte a resposta ou para vermelho, caso o usuário erre a resposta.
+
+No momento, nosso código para essa funcionalidade está assim:
+
+if usuarioAcertouResposta {
+        pontuacao += 1
+        sender.backgroundColor = UIColor(red: 11/255, green: 161/255, blue: 53/255, alpha: 1.0)
+} else {
+        sender.backgroundColor = UIColor(red: 211/255, green: 17/255, blue: 17/255, alpha: 1.0)
+}COPIAR CÓDIGO
+Nós podemos criar uma extensão de UIColor, adicionando essas duas cores, para deixar nosso código mais legível! Analise o código abaixo:
+
+import UIKit
+
+extension UIColor {
+    static var corDeFundoVerde = UIColor(red: 11/255, green: 161/255, blue: 53/255, alpha: 1.0)
+    static var corDeFundoVermelho = UIColor(red: 211/255, green: 17/255, blue: 17/255, alpha: 1.0)
+}COPIAR CÓDIGO
+Vamos a explicação: criamos uma extensão de UIColor (um tipo de dado já definido pelo framework UIKit) que contém duas novas propriedades: corDeFundoVerde e corDeFundoVermelho.
+
+Note que essas duas propriedades são estáticas, pois não é possível criar propriedades armazenadas nas extensões. Também seria possível criar uma propriedade computada nesse caso.
+
+Agora, voltando na verificação se o usuário acertou a resposta ou não, nosso código ficaria assim:
+
+if usuarioAcertouResposta {
+        pontuacao += 1
+    sender.backgroundColor = UIColor.corDeFundoVerde
+} else {
+    sender.backgroundColor = UIColor.corDeFundoVermelho
+}COPIAR CÓDIGO
+Você pode definir a extension em um arquivo separado, nomeado como UIColor+, por exemplo.
+
+Normalmente, quando criamos um arquivo que será uma extensão, nomeamos com o nome do tipo de dado e um sinal de adição. Veja a imagem abaixo:
+
+Imagem que mostra o menu lateral esquerdo com os arquivos do Xcode e o código da extensão.
+
+Pelo fato do tipo de dado UIColor ser um tipo de dado do framework UIKit, precisamos importar esse framework no arquivo UIColor+, utilizando um import UIKit.
+
+Agora, temos uma pasta nomeada ‘Extensões’, com o arquivo da extensão dentro.
+
+Muito legal, não é? Nosso código está muito mais organizado agora!
+
+@@09
+Faça como eu fiz: tela de desempenho
+
+Agora é a sua vez! Chegou a hora de você seguir todos os passos realizados por mim durante esta aula. Portanto:
+Crie a última tela da nossa aplicação, a tela de desempenho;
+Aplique constraints;
+Conecte os elementos do storyboard ao código;
+Implemente a navegação com parâmetros utilizando de métodos como o prepare e performSegue;
+Altere os textos dos elementos para que sejam dinâmicos, de acordo com a pontuação;
+Crie um método para calcular a porcentagem;
+Organize a estrutura de pastas do seu projeto.
+Caso já tenha feito esses passos, excelente. Se ainda não, é importante que você execute o que foi visto nos vídeos para poder continuar com a próxima aula.
+
+O ideal é que você tente replicar os passos por conta própria para validar seu aprendizado. Porém, caso tenha dificuldade, fique à vontade para dar uma olhadinha nos vídeos!
+Vamos lá?
+
+Opinião do instrutor
+
+O objetivo desta atividade é estimular a prática necessária para seu aprendizado!
+Você pode conferir o código do projeto até o momento através desta branch no GitHub.
+
+Se precisar de ajuda, chama a gente no fórum ou discord!
+
+https://github.com/alura-cursos/ios-construindo-seu-primeiro-aplicativo/tree/aula-05
+
+@@10
+Desafio: criando um quiz de 5 a 10 telas
+
+Durante nosso projeto, criamos um Quiz de apenas 3 questões. Agora, é a sua vez de modificar o array de questões, implementando novas questões da sua temática favorita! Você pode adicionar quantas questões quiser, afinal nossa aplicação está bem dinâmica!
+Compartilhe seu código na comunidade do discord! Vamos lá?
+
+Se preferir, pode utilizar as sete perguntas abaixo (e criar as suas próprias):
+
+Qual feitiço para desarmar o seu oponente, em Harry Potter?
+a) Expectro Patronum
+b) Avada Kedavra
+c) Expelliarmus (Correta)
+Quando foi lançado o filme Avatar 2?
+a) 2014
+b) 2022
+c) 2023
+Quando foi lançado o filme Vingadores Ultimato?
+a) 2019
+b) 2018
+c) 2017
+Qual é o primeiro filme da franquia Star Wars?
+a) Star Wars: A Ameaça Fantasma
+b) Star Wars: Uma Nova Esperança
+c) Star Wars: O Império Contra-Ataca
+Qual é o primeiro filme do Universo Cinematográfico Marvel (MCU)?
+a) Homem de Ferro
+b) Capitão América: O Primeiro Vingador
+c) Thor
+Qual é o personagem principal de The Office, interpretado por Steve Carell?
+a) Michael Scott
+b) Jim Halpert
+c) Dwight Schrute
+Qual é o trabalho de Jay Pritchett na série Modern Family?
+a) Médico
+b) Empresário
+c) Advogado
+
+Opinião do instrutor
+
+Meu quiz segue com a temática de filmes e séries, por isso adicionei essas novas questões no array de questões, que está definido dentro do arquivo ‘Questao.swift’:
+let questoes: [Questao] = [
+    Questao(titulo: "Qual feitiço para desarmar o seu oponente, em Harry Potter?", respostas: ["Expectro Patronum", "Avada Kedavra", "Expelliarmus"], respostaCorreta: 2),
+    Questao(titulo: "Quando foi lançado o filme Avatar 2?", respostas: ["2014", "2022", "2023"], respostaCorreta: 1),
+    Questao(titulo: "Quando foi lançado o filme Vingadores Ultimato?", respostas: ["2019", "2018", "2017"], respostaCorreta: 0),
+    Questao(titulo: "Qual é o primeiro filme da franquia Star Wars?", respostas: ["Star Wars: A Ameaça Fantasma", "Star Wars: Uma Nova Esperança", "Star Wars: O Império Contra-Ataca"], respostaCorreta: 1),
+    Questao(titulo: "Qual é o primeiro filme do Universo Cinematográfico Marvel (MCU)?", respostas: ["Homem de Ferro", "Capitão América: O Primeiro Vingador", "Thor"], respostaCorreta: 0),
+    Questao(titulo: "Qual é o personagem principal de The Office, interpretado por Steve Carell?", respostas: ["Michael Scott", "Jim Halpert", "Dwight Schrute"], respostaCorreta: 0),
+    Questao(titulo: "Qual é o trabalho de Jay Pritchett na série Modern Family?", respostas: ["Médico", "Empresário", "Advogado"], respostaCorreta: 1),
+]
+
+@@11
+Para saber mais: como rodar o aplicativo em dispositivo físico
+
+Para executar seu aplicativo iOS em um dispositivo físico, você precisará de um dispositivo iOS e uma conta da Apple. Aqui estão os passos básicos que você precisará seguir:
+1) Conecte o dispositivo físico ao seu computador através do cabo de carregamento;
+
+2) Abra o Xcode com o projeto a ser executado;
+
+3) Quando for executar o projeto, em vez de selecionar um simulador, selecione o seu próprio dispositivo físico;
+
+a) Uma outra maneira de selecionar é clicando no menu “Product”, e então “Destination”.
+4) Rode o seu aplicativo - é provável que ele não funcione.
+
+O Xcode vai compilar seu aplicativo e instalá-lo no dispositivo físico. O aplicativo provavelmente não funcionará na primeira abertura no dispositivo, pois ele deve estar habilitado para executar aplicativos de desenvolvedores não confiáveis. Para habilitar essa opção, siga os demais passos abaixo.
+5) Entre em Configurações do dispositivo > Geral > Perfil e configuração de gerenciamento de dispositivos.
+
+Nesse momento, é importante que sua conta da Apple esteja conectada ao projeto. Para conectá-la, siga os últimos passos.
+6) Entre no menu de arquivos e clique no projeto;
+
+7) Vá em “Signing & Capabilities” e verifique se a sua conta está conectada e marcada em “Team”.
+
+Observe a imagem abaixo:
+
+Imagem que mostra o projeto selecionado e a conta ativa.(Tela-Xcode.png)
+
+Para publicar seu aplicativo na loja da Apple, o processo é um pouco burocrático e você precisa de uma conta de desenvolvedor, que custa $99 dólares por ano! Você pode ler mais sobre a conta de desenvolvedor aqui e sobre a distribuição de aplicativos na loja oficial.
+
+https://developer.apple.com/programs/
+
+https://developer.apple.com/distribute/
+
+https://caelum-online-public.s3.amazonaws.com/2823-ios/aula5/Tela-Xcode.png
+
+@@12
+Projeto final
+
+Você pode baixar ou acessar o código-fonte do projeto final.
+Aproveite para explorá-lo e revisar pontos importantes do curso.
+
+Bons estudos!
+
+https://github.com/alura-cursos/ios-construindo-seu-primeiro-aplicativo/archive/refs/heads/main.zip
+
+https://github.com/alura-cursos/ios-construindo-seu-primeiro-aplicativo/tree/main
+
+@@13
+O que aprendemos?
+
+Nessa aula, você aprendeu como:
+Navegar entre telas com passagem de parâmetros;
+Utilizar métodos como performSegue e prepare com o objetivo de preparar a tela para a navegação;
+Alterar a propriedade de texto de um elemento label para que o texto seja dinâmico;
+Calcular o percentual final do usuário.
+Parabéns por chegar até aqui!
+
+@@14
+Recados finais
+
+Parabéns, você chegou ao fim do nosso curso. Tenho certeza que esse mergulho foi de muito aprendizado.
+E, então, o que você achou? Sua opinião importa e muito para nós!
+
+Após os créditos finais do curso, você será redirecionado(a) para uma tela na qual poderá deixar seu feedback e avaliação do curso. Curtiu alguma coisa? Elogie! Percebeu um ponto de melhoria? Faça sua sugestão!
+
+Aproveite para conhecer a nossa comunidade no Discord da Alura e se conectar com outras pessoas com quem pode conversar, aprender e aumentar seu networking.
+
+Continue mergulhando com a gente ��.
+
+https://discord.gg/QeBdgAjXnn
+
+@@15
+Conclusão
+
+Parabéns por concluírem mais um curso. Agora vocês já têm construído seu primeiro aplicativo iOS e o mais interessante é que podem executá-lo no dispositivo físico.
+Durante esse curso vocês construíram interfaces usando o StoryBoard e AutoLayout, com regras de posicionamento, as Constraints. Aprenderam também sobre Navegação entre telas e Modelagem de dados. Vocês estão no caminho certo para se tornarem desenvolvedores e desenvolvedoras iOS.
+
+Caso tenham dúvidas, podem acessar o fórum do curso ou nos procurar no Discord da Alura, que estaremos à sua disposição. Vocês também podem se conectar com outras pessoas que estão fazendo, ou já fizeram, esse curso e trocar uma ideia sobre o universo do desenvolvimento iOS.
+
+A sua avaliação também é extremamente importante para nós, então deixem sua nota ao final do curso. Também se lembrem de nos marcar nas redes sociais para mostrar o que aprenderam com "#AprendiNaAlura".
+
+Obrigada por chegarem até aqui e até breve.
+
+https://cursos.alura.com.br/forum/curso-construindo-o-seu-primeiro-aplicativo-ios/todos
+
+https://discord.gg/SK9bj7hEYD

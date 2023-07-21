@@ -2,7 +2,7 @@
 //  UIColor+.swift
 //  iQuiz
 //
-//  Created by Leandro Rodrigues on 22.07.23.
+//  Created by Giovanna Moeller on 14/02/23.
 //
 
 import UIKit
